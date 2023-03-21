@@ -1,4 +1,5 @@
 import Head from "next/head";
+import s from "@/styles/Home.module.scss";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -23,7 +24,12 @@ export default function Home() {
         <title>Japanese Assistant</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <main>{chat}</main>
+      <main className={s.main}>
+        <div className={s.wrapper}>
+          <div>なんかうまいこと使ってやれないの？</div>
+          <div>{chat}</div>
+        </div>
+      </main>
     </>
   );
 }

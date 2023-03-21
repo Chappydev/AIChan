@@ -1,0 +1,27 @@
+@use "sass:color";
+$bg-black: rgba(25, 25, 25, 1);
+
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(45deg, rgb(255, 136, 0), green);
+}
+
+.wrapper {
+  display: flex;
+  height: 80%;
+  width: 80%;
+  border-radius: 14px;
+  background-color: $bg-black;
+  box-shadow: 0 0 6px 1px color.change($bg-black, $alpha: 0.6);
+  color: white;
+  > div {
+    &:first-of-type {
+      border-right: 1px solid black;
+    }
+    flex: auto;
+    padding: 1rem;
+  }
+}
