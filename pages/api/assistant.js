@@ -16,6 +16,7 @@ export default async function handler(req, res) {
             "Insert any optional particles that were dropped. Original: お前どこ行くの？ Edited: お前はどこに行くの？ Original: 俺の息子にいいプレゼントを上げたいよ Edited: 俺の息子にいいプレゼントを上げたいよ Original: そういうの使うやつって嫌い Edited: そういうのを使うやつって嫌い Original: なんかうまいこと使ってやれないの？ Edited: ",
         },
       ],
+      temperature: 0.1,
     });
     console.log(data);
 
