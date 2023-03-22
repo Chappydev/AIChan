@@ -1,5 +1,5 @@
 @use "sass:color";
-$bg-black: rgba(25, 25, 25, 1);
+@use "./colors" as c;
 
 .main {
   display: flex;
@@ -14,14 +14,15 @@ $bg-black: rgba(25, 25, 25, 1);
   height: 80%;
   width: 80%;
   border-radius: 14px;
-  background-color: $bg-black;
-  box-shadow: 0 0 6px 1px color.change($bg-black, $alpha: 0.6);
+  background-color: c.$bg-black;
+  box-shadow: 0 0 6px 1px color.change(c.$bg-black, $alpha: 0.6);
   color: white;
   > div {
     &:first-of-type {
       border-right: 1px solid black;
     }
-    flex: auto;
+    flex: 1 0 0;
     padding: 1rem;
+    overflow: hidden;
   }
 }
