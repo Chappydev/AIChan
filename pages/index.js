@@ -2,6 +2,7 @@ import Head from "next/head";
 import s from "@/styles/Home.module.scss";
 import { useEffect, useState } from "react";
 import TextLine from "@/components/TextLine";
+import ChatBubble from "@/components/ChatBubble";
 
 const lines = [
   "大使館まではどれくらいかね。",
@@ -21,16 +22,34 @@ const lines = [
   "あっ…。",
 ];
 
+const tempData = {
+  id: "chatcmpl-6x4l1qHaA4lB4qM4snzrpv5eCo1mE",
+  object: "chat.completion",
+  created: 1679537659,
+  model: "gpt-3.5-turbo-0301",
+  usage: { prompt_tokens: 140, completion_tokens: 17, total_tokens: 157 },
+  choices: [
+    {
+      message: {
+        role: "assistant",
+        content: "なんかうまいこと使ってやれないの？",
+      },
+      finish_reason: "stop",
+      index: 0,
+    },
+  ],
+};
+
 export default function Home() {
   const [chat, setChat] = useState("");
 
   useEffect(() => {
     (async () => {
       try {
-        const response = await fetch("api/assistant");
-        const data = await response.json();
-        console.log(data);
-        setChat(data.choices[0].message.content);
+        // const response = await fetch("api/assistant");
+        // const data = await response.json();
+        // setChat(data.choices[0].message);
+        setChat(tempData.choices[0].message);
       } catch (err) {
         console.error(err);
       }
@@ -50,7 +69,9 @@ export default function Home() {
               <TextLine text={line} key={ind} />
             ))}
           </div>
-          <div>{chat}</div>
+          <div>
+            <ChatBubble message={chat} />
+          </div>
         </div>
       </main>
     </>
