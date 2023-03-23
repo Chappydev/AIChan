@@ -1,2 +1,5 @@
+@use "sass:color";
+
 $bg-black: rgba(30, 30, 30, 1);
 $accent-blue: rgba(58, 87, 255, 1);
+$lighter-black: color.scale($bg-black, $lightness: 6%);
