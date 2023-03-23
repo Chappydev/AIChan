@@ -1,8 +1,9 @@
 import Head from "next/head";
 import s from "@/styles/Home.module.scss";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import TextLine from "@/components/TextLine";
 import ChatBubble from "@/components/ChatBubble";
+import { LineContext } from "@/contexts/LineContext";
 
 const lines = [
   "大使館まではどれくらいかね。",
@@ -41,6 +42,7 @@ const tempData = {
 };
 
 export default function Home() {
+  const [refLines, setRefLines] = useState([]);
   const [chat, setChat] = useState("");
 
   useEffect(() => {
@@ -64,14 +66,22 @@ export default function Home() {
       </Head>
       <main className={s.main}>
         <div className={s.wrapper}>
-          <div>
-            {lines.map((line, ind) => (
-              <TextLine text={line} key={ind} />
-            ))}
-          </div>
-          <div>
-            <ChatBubble message={chat} />
-          </div>
+          <LineContext.Provider value={{ refLines, setRefLines }}>
+            <div>
+              {lines.map((line, ind) => (
+                <TextLine text={line} key={ind} />
+              ))}
+            </div>
+            <div>
+              <ChatBubble message={chat} />
+              <ChatBubble
+                message={{
+                  role: "user",
+                  content: `Lines: ${refLines.length} ${refLines.at(-1)}`,
+                }}
+              />
+            </div>
+          </LineContext.Provider>
         </div>
       </main>
     </>
