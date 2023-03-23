@@ -1,0 +1,32 @@
+@use "sass:color";
+@use "../../styles/colors" as c;
+
+.wrapper {
+  display: flex;
+  width: 100%;
+  padding: 0.6em 0;
+
+  &:has([data-role="user"]) {
+    flex-direction: row-reverse;
+  }
+}
+
+.innerWrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: 85%;
+  min-width: 55%;
+}
+
+.messageBubble {
+  width: 100%;
+  padding: 0.4em 0.6em;
+  border-radius: 14px;
+  border-top-right-radius: 0px;
+  background-color: c.$lighter-black;
+  box-shadow: 0 1px 3px color.change(black, $alpha: 0.4);
+  &[data-role="assistant"] {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 14px;
+  }
+}
