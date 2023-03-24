@@ -41,9 +41,19 @@ const tempData = {
   ],
 };
 
+const initialMessage = {
+  role: "assistant",
+  content:
+    "I'm your Japanese learning assistant. How can I help you? Select a premade option or type your question/prompt",
+  // 'raw' is the unaltered message data (for sending to api)
+  // null indicates that this message should not be included in requests
+  raw: null,
+};
+
 export default function Home() {
   const [refLines, setRefLines] = useState([]);
-  const [chat, setChat] = useState("");
+  const [chat, setChat] = useState([initialMessage]);
+  console.log(chat, typeof chat);
 
   useEffect(() => {
     (async () => {
@@ -51,7 +61,8 @@ export default function Home() {
         // const response = await fetch("api/assistant");
         // const data = await response.json();
         // setChat(data.choices[0].message);
-        setChat(tempData.choices[0].message);
+        // -----
+        // setChat(tempData.choices[0].message);
       } catch (err) {
         console.error(err);
       }
@@ -73,13 +84,17 @@ export default function Home() {
               ))}
             </div>
             <div>
-              <ChatBubble message={chat} />
+              {/* <ChatBubble message={chat} />
               <ChatBubble
                 message={{
                   role: "user",
                   content: `Lines: ${refLines.length} ${refLines.at(-1)}`,
                 }}
-              />
+              /> */}
+              {chat.map((message, ind) => {
+                console.log(message);
+                return <ChatBubble key={ind} message={message} />;
+              })}
             </div>
           </LineContext.Provider>
         </div>
