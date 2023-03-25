@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import Chip from "../Chip";
 import s from "./ChatBubble.module.scss";
 
 const ChatBubble = ({ message }) => {
@@ -14,7 +15,11 @@ const ChatBubble = ({ message }) => {
         <div className={s.messageBubble} data-role={message.role}>
           {message.content}
         </div>
-        {message.role === "assistant" && <div className={s.chips}></div>}
+        {message.role === "assistant" && (
+          <div className={s.chips}>
+            <Chip>Test</Chip>
+          </div>
+        )}
       </div>
     </div>
   );
