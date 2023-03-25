@@ -48,6 +48,7 @@ const initialMessage = {
     "I'm your Japanese learning assistant. How can I help you? Select a premade option or type your question/prompt",
   // 'raw' is the unaltered message data (for sending to api)
   // null indicates that this message should not be included in requests
+  type: "initial",
   raw: null,
 };
 

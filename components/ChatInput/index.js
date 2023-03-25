@@ -13,6 +13,11 @@ const ChatInput = ({ chat, setChat }) => {
     const newMsg = {
       role: "user",
       content: text,
+      type: "custom",
+      raw: {
+        role: "user",
+        content: text,
+      },
     };
     setChat([...chat, newMsg]);
     setText("");
