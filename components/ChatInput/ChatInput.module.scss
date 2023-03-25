@@ -24,4 +24,16 @@
   border-radius: 10px;
   padding: 0.6rem;
   line-height: 0;
+  cursor: pointer;
+  background-color: color.scale(c.$accent-blue, $lightness: -10%);
+  &:hover {
+    background-color: color.scale(c.$accent-blue, $lightness: -5%);
+  }
+}
+
+.textInput,
+.submit {
+  &:focus-visible {
+    outline: white solid 1px;
+  }
 }
