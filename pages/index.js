@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import TextLine from "@/components/TextLine";
 import ChatBubble from "@/components/ChatBubble";
 import { LineContext } from "@/contexts/LineContext";
+import ChatInput from "@/components/ChatInput";
 
 const lines = [
   "大使館まではどれくらいかね。",
@@ -53,7 +54,6 @@ const initialMessage = {
 export default function Home() {
   const [refLines, setRefLines] = useState([]);
   const [chat, setChat] = useState([initialMessage]);
-  console.log(chat, typeof chat);
 
   useEffect(() => {
     (async () => {
@@ -78,12 +78,14 @@ export default function Home() {
       <main className={s.main}>
         <div className={s.wrapper}>
           <LineContext.Provider value={{ refLines, setRefLines }}>
-            <div>
-              {lines.map((line, ind) => (
-                <TextLine text={line} key={ind} />
-              ))}
+            <div className={s.textWrapper}>
+              <div className={s.textLines}>
+                {lines.map((line, ind) => (
+                  <TextLine text={line} key={ind} />
+                ))}
+              </div>
             </div>
-            <div>
+            <div className={s.chatWrapper}>
               {/* <ChatBubble message={chat} />
               <ChatBubble
                 message={{
@@ -91,10 +93,12 @@ export default function Home() {
                   content: `Lines: ${refLines.length} ${refLines.at(-1)}`,
                 }}
               /> */}
-              {chat.map((message, ind) => {
-                console.log(message);
-                return <ChatBubble key={ind} message={message} />;
-              })}
+              <div className={s.chatBubbles}>
+                {chat.map((message, ind) => {
+                  return <ChatBubble key={ind} message={message} />;
+                })}
+              </div>
+              <ChatInput chat={chat} setChat={setChat} />
             </div>
           </LineContext.Provider>
         </div>
