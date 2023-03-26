@@ -15,10 +15,19 @@ const useAssistant = (chat) => {
     }
   }, [chat]);
 
+  // type !== "custom" condition only for testing purposes
+  // replace with:
+  // const shouldFetch = type && content;
+  const shouldFetch = type && content && type !== "custom";
+
   // return useSWRImmutable(type && content ? [`/api/${type}`, content] : null, getChatResponse);
-  return useSWRImmutable([`/api/${type}`, content], getChatResponse, {
-    errorRetryCount: 2,
-  });
+  return useSWRImmutable(
+    shouldFetch ? [`/api/${type}`, content] : null,
+    getChatResponse,
+    {
+      errorRetryCount: 2,
+    }
+  );
 };
 
 export default useAssistant;
