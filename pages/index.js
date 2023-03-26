@@ -1,10 +1,13 @@
 import Head from "next/head";
 import s from "@/styles/Home.module.scss";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import useSWRImmutable from "swr";
 import TextLine from "@/components/TextLine";
 import ChatBubble from "@/components/ChatBubble";
 import { LineContext } from "@/contexts/LineContext";
 import ChatInput from "@/components/ChatInput";
+import useAssistant from "@/hooks/useAssistant";
+import useOptions from "@/hooks/useOptions";
 
 const lines = [
   "大使館まではどれくらいかね。",
@@ -55,20 +58,23 @@ const initialMessage = {
 export default function Home() {
   const [refLines, setRefLines] = useState([]);
   const [chat, setChat] = useState([initialMessage]);
+  const options = useOptions(refLines, chat, setChat);
+
+  const { data, error, isLoading } = useAssistant(chat);
+  console.log(error);
 
   useEffect(() => {
-    (async () => {
-      try {
-        // const response = await fetch("api/assistant");
-        // const data = await response.json();
-        // setChat(data.choices[0].message);
-        // -----
-        // setChat(tempData.choices[0].message);
-      } catch (err) {
-        console.error(err);
-      }
-    })();
-  }, []);
+    if (data) {
+      const newChat = {
+        content: data.content,
+        role: data.role,
+        type: chat[chat.length - 1],
+        raw: data,
+      };
+      setChat([...chat, newChat]);
+    }
+    // eslint-disable-next-line
+  }, [data]);
 
   return (
     <>
@@ -96,7 +102,9 @@ export default function Home() {
               /> */}
               <div className={s.chatBubbles}>
                 {chat.map((message, ind) => {
-                  return <ChatBubble key={ind} message={message} />;
+                  return (
+                    <ChatBubble key={ind} message={message} options={options} />
+                  );
                 })}
               </div>
               <ChatInput chat={chat} setChat={setChat} />
