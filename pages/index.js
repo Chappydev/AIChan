@@ -1,13 +1,14 @@
 import Head from "next/head";
 import s from "@/styles/Home.module.scss";
 import { useEffect, useState } from "react";
-import useSWRImmutable from "swr";
 import TextLine from "@/components/TextLine";
 import ChatBubble from "@/components/ChatBubble";
 import { LineContext } from "@/contexts/LineContext";
 import ChatInput from "@/components/ChatInput";
 import useAssistant from "@/hooks/useAssistant";
 import useOptions from "@/hooks/useOptions";
+import useChat from "@/hooks/useChat";
+import ChatLoadingBubble from "@/components/ChatLoadingBubble";
 
 const lines = [
   "大使館まではどれくらいかね。",
@@ -45,21 +46,10 @@ const tempData = {
   ],
 };
 
-const initialMessage = {
-  role: "assistant",
-  content:
-    "I'm your Japanese learning assistant. How can I help you? Select a premade option or type your question/prompt",
-  // 'raw' is the unaltered message data (for sending to api)
-  // null indicates that this message should not be included in requests
-  type: "initial",
-  raw: null,
-};
-
 export default function Home() {
   const [refLines, setRefLines] = useState([]);
-  const [chat, setChat] = useState([initialMessage]);
+  const { chat, setChat, ref: scrollRef } = useChat();
   const options = useOptions(refLines, chat, setChat);
-
   const { data, error, isLoading } = useAssistant(chat);
   console.log(error);
 
@@ -100,12 +90,13 @@ export default function Home() {
                   content: `Lines: ${refLines.length} ${refLines.at(-1)}`,
                 }}
               /> */}
-              <div className={s.chatBubbles}>
+              <div className={s.chatBubbles} ref={scrollRef}>
                 {chat.map((message, ind) => {
                   return (
                     <ChatBubble key={ind} message={message} options={options} />
                   );
                 })}
+                {isLoading && <ChatLoadingBubble />}
               </div>
               <ChatInput chat={chat} setChat={setChat} />
             </div>
