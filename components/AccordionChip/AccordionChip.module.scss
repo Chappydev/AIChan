@@ -1,0 +1,26 @@
+@use "sass:color";
+@use "../../styles/mixins" as m;
+@use "../../styles/colors" as c;
+@use "../../styles/spacing" as s;
+
+.dropdown {
+  position: absolute;
+  right: 0;
+  margin-top: s.$gap;
+  display: none;
+  border-radius: s.$border-radius;
+  background-color: c.$lighter-black;
+  @include m.shadow($blur: 7px, $alpha: 0.6);
+  width: max-content;
+  padding: s.$chat-padding;
+  cursor: auto;
+
+  > div:not(:last-of-type) {
+    border-bottom: 1px solid color.scale(c.$lighter-black, $lightness: 5%);
+  }
+
+  &[data-open="true"] {
+    display: flex;
+    flex-direction: column;
+  }
+}

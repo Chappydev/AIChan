@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import AccordionChip from "../AccordionChip";
 import Chip from "../Chip";
 import s from "./ChatBubble.module.scss";
 
@@ -18,6 +19,9 @@ const ChatBubble = ({ message }) => {
         {message.role === "assistant" && (
           <div className={s.chips}>
             <Chip>Test</Chip>
+            <AccordionChip
+              options={["Translate", "Expand", "Dialect", "Particles"]}
+            />
           </div>
         )}
       </div>
