@@ -1,12 +1,14 @@
 @use "sass:color";
+@use "../../styles/mixins" as m;
 @use "../../styles/colors" as c;
 @use "../../styles/spacing" as s;
 
 .wrapper {
+  position: relative;
   background-color: c.$lighter-black;
   font-size: 0.9em;
   padding: 0.05em 1em;
   border-radius: s.$border-radius;
-  box-shadow: 0 1px 2px color.change(black, $alpha: 0.4);
+  @include m.shadow($blur: 2px);
   cursor: pointer;
 }
