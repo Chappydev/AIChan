@@ -1,13 +1,10 @@
-import React, { useEffect } from "react";
+import { LineContext } from "@/contexts/LineContext";
+import React, { useContext, useEffect } from "react";
 import AccordionChip from "../AccordionChip";
 import Chip from "../Chip";
 import s from "./ChatBubble.module.scss";
 
-const ChatBubble = ({ message }) => {
-  useEffect(() => {
-    console.log(message);
-  });
-
+const ChatBubble = ({ message, options }) => {
   return (
     // Outer div should span full width of container
     <div className={s.wrapper}>
@@ -18,9 +15,9 @@ const ChatBubble = ({ message }) => {
         </div>
         {message.role === "assistant" && (
           <div className={s.chips}>
-            <Chip>Test</Chip>
+            <Chip onClick={options.particles.handler}>Particles</Chip>
             <AccordionChip
-              options={["Translate", "Expand", "Dialect", "Particles"]}
+              options={["Translate", "Expand", "Dialect", "Test"]}
             />
           </div>
         )}
