@@ -8,7 +8,6 @@ const AccordionChip = ({ options = [] }) => {
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
-  console.log(options);
 
   return (
     <>
