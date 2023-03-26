@@ -27,6 +27,7 @@
   border-radius: s.$border-radius;
   border-top-right-radius: 0px;
   background-color: c.$lighter-black;
+  white-space: pre-line;
   @include m.shadow;
   &[data-role="assistant"] {
     border-top-left-radius: 0px;
