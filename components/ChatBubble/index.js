@@ -15,10 +15,14 @@ const ChatBubble = ({ message, options }) => {
         </div>
         {message.role === "assistant" && (
           <div className={s.chips}>
-            <Chip onClick={options.particles.handler}>Particles</Chip>
-            <AccordionChip
+            {options.map((option, ind) => (
+              <Chip key={ind} onClick={option.handler}>
+                {option.name}
+              </Chip>
+            ))}
+            {/* <AccordionChip
               options={["Translate", "Expand", "Dialect", "Test"]}
-            />
+            /> */}
           </div>
         )}
       </div>
