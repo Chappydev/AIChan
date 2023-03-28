@@ -40,6 +40,26 @@ const useOptions = (refLines, chat, setChat) => {
         }
       },
     },
+    {
+      name: "translate",
+      handler() {
+        if (refLines && refLines.length > 0) {
+          setChat([
+            ...chat,
+            {
+              role: "user",
+              content:
+                "Translate my selection to English and explain any parts that may not be accounted for in the translation",
+              type: "smartTranslate",
+              raw: {
+                role: "user",
+                content: refLines.join("\n"),
+              },
+            },
+          ]);
+        }
+      },
+    },
   ]);
 
   useEffect(() => {
@@ -73,6 +93,26 @@ const useOptions = (refLines, chat, setChat) => {
                 role: "user",
                 content: "Expand any contractions from my selection",
                 type: "expand",
+                raw: {
+                  role: "user",
+                  content: refLines.join("\n"),
+                },
+              },
+            ]);
+          }
+        },
+      },
+      {
+        name: "translate",
+        handler() {
+          if (refLines && refLines.length > 0) {
+            setChat([
+              ...chat,
+              {
+                role: "user",
+                content:
+                  "Translate my selection to English and explain any parts that may not be accounted for in the translation",
+                type: "smartTranslate",
                 raw: {
                   role: "user",
                   content: refLines.join("\n"),
