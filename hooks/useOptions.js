@@ -124,7 +124,7 @@ const useOptions = (refLines, chat, setChat) => {
       },
     ]);
     // eslint-disable-next-line
-  }, [refLines, setChat]);
+  }, [refLines, chat, setChat]);
 
   return options;
 };
