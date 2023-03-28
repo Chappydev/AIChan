@@ -48,7 +48,7 @@ const tempData = {
 
 export default function Home() {
   const [refLines, setRefLines] = useState([]);
-  const { chat, setChat, ref: scrollRef } = useChat();
+  const { chat, setChat, ref: scrollRef } = useChat(refLines);
   const options = useOptions(refLines, chat, setChat);
   const { data, error, isLoading } = useAssistant(chat);
   console.log(error);

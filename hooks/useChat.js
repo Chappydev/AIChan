@@ -10,7 +10,7 @@ const initialMessage = {
   raw: null,
 };
 
-const useChat = () => {
+const useChat = (refLines) => {
   const [chat, setChat] = useState([initialMessage]);
 
   const ref = useRef();
@@ -19,11 +19,19 @@ const useChat = () => {
   // Scroll any new messages into view
   useEffect(() => {
     if (ref?.current && chat.length > chatLengthRef.current) {
-      console.log(ref.current.scrollTop, ref.current.scrollHeight);
       chatLengthRef++;
       ref.current.scrollTop = ref.current.scrollHeight;
     }
   }, [ref, chat]);
+
+  useEffect(() => {
+    console.log("refLines changed");
+    if (chat.length > 1) {
+      console.log("resetting chat");
+      setChat([initialMessage]);
+    }
+    // eslint-disable-next-line
+  }, [refLines, setChat]);
 
   return { chat, setChat, ref };
 };
