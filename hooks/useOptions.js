@@ -122,6 +122,26 @@ const useOptions = (refLines, chat, setChat) => {
           }
         },
       },
+      {
+        name: "correction",
+        handler() {
+          const selectedText = refLines.join("\n");
+          if (refLines && refLines.length > 0) {
+            setChat([
+              ...chat,
+              {
+                role: "user",
+                content: `Help me understand this text: ${selectedText}. My understanding is: `,
+                type: "waiting",
+                raw: {
+                  role: "user",
+                  content: selectedText,
+                },
+              },
+            ]);
+          }
+        },
+      },
     ]);
     // eslint-disable-next-line
   }, [refLines, chat, setChat]);

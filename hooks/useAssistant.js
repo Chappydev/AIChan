@@ -18,7 +18,8 @@ const useAssistant = (chat) => {
   // type !== "custom" condition only for testing purposes
   // replace with:
   // const shouldFetch = type && content;
-  const shouldFetch = type && content && type !== "custom";
+  const shouldFetch =
+    type && content && type !== "waiting" && type !== "custom";
 
   // return useSWRImmutable(type && content ? [`/api/${type}`, content] : null, getChatResponse);
   return useSWRImmutable(
