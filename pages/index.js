@@ -93,7 +93,9 @@ export default function Home() {
               <div className={s.chatBubbles} ref={scrollRef}>
                 {chat.map((message, ind) => {
                   return (
-                    <ChatBubble key={ind} message={message} options={options} />
+                    <ChatBubble key={ind} role={message.role} options={options}>
+                      {message.content}
+                    </ChatBubble>
                   );
                 })}
                 {isLoading && <ChatLoadingBubble />}
