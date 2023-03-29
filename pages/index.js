@@ -9,6 +9,7 @@ import useAssistant from "@/hooks/useAssistant";
 import useOptions from "@/hooks/useOptions";
 import useChat from "@/hooks/useChat";
 import ChatLoadingBubble from "@/components/ChatLoadingBubble";
+import TextArea from "@/components/TextArea";
 
 const lines = [
   "大使館まではどれくらいかね。",
@@ -92,6 +93,14 @@ export default function Home() {
               /> */}
               <div className={s.chatBubbles} ref={scrollRef}>
                 {chat.map((message, ind) => {
+                  if (message.type === "waiting") {
+                    return (
+                      <ChatBubble key={ind} role={message.role}>
+                        <TextArea content={message.content} />
+                      </ChatBubble>
+                    );
+                  }
+
                   return (
                     <ChatBubble key={ind} role={message.role} options={options}>
                       {message.content}
