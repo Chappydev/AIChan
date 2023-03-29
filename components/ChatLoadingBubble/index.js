@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import ChatBubble from "../ChatBubble";
 import s from "./ChatLoadingBubble.module.scss";
 
 const ChatLoadingBubble = () => {
@@ -13,14 +14,7 @@ const ChatLoadingBubble = () => {
     };
   });
 
-  return (
-    <div className={s.wrapper}>
-      {/* Inner divs are the actual chat bubble and any chips underneath */}
-      <div className={s.innerWrapper}>
-        <div className={s.messageBubble}>{text}</div>
-      </div>
-    </div>
-  );
+  return <ChatBubble role="assistant">{text}</ChatBubble>;
 };
 
 export default ChatLoadingBubble;

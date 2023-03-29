@@ -13,7 +13,7 @@ const ChatBubble = ({ role, options = null, children }) => {
         <div className={s.messageBubble} data-role={role}>
           {children}
         </div>
-        {role === "assistant" && (
+        {role === "assistant" && options && (
           <div className={s.chips}>
             {options.map((option, ind) => (
               <Chip key={ind} onClick={option.handler}>
