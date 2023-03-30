@@ -8,7 +8,7 @@ const Chips = ({ options }) => {
   const numberOfChips = 3;
   const visibleOptions = options.slice(0, numberOfChips - 1);
   const hiddenOptions = options.slice(numberOfChips);
-  console.log(visibleOptions, hiddenOptions);
+
   return (
     <div className={s.chips}>
       {visibleOptions.map((option, ind) => (
