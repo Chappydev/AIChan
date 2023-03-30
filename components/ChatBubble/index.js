@@ -2,6 +2,7 @@ import { LineContext } from "@/contexts/LineContext";
 import React, { useContext, useEffect } from "react";
 import AccordionChip from "../AccordionChip";
 import Chip from "../Chip";
+import Chips from "../Chips";
 import s from "./ChatBubble.module.scss";
 
 const ChatBubble = ({ role, options = null, children }) => {
@@ -13,18 +14,7 @@ const ChatBubble = ({ role, options = null, children }) => {
         <div className={s.messageBubble} data-role={role}>
           {children}
         </div>
-        {role === "assistant" && options && (
-          <div className={s.chips}>
-            {options.map((option, ind) => (
-              <Chip key={ind} onClick={option.handler}>
-                {option.name}
-              </Chip>
-            ))}
-            {/* <AccordionChip
-              options={["Translate", "Expand", "Dialect", "Test"]}
-            /> */}
-          </div>
-        )}
+        {role === "assistant" && options && <Chips options={options} />}
       </div>
     </div>
   );
