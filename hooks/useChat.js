@@ -12,6 +12,7 @@ const initialMessage = {
 
 const useChat = (refLines) => {
   const [chat, setChat] = useState([initialMessage]);
+  const onCompleteRef = useRef();
 
   const ref = useRef();
   let chatLengthRef = useRef(chat.length);
@@ -25,15 +26,33 @@ const useChat = (refLines) => {
   }, [ref, chat]);
 
   useEffect(() => {
-    console.log("refLines changed");
     if (chat.length > 1) {
-      console.log("resetting chat");
       setChat([initialMessage]);
     }
     // eslint-disable-next-line
   }, [refLines, setChat]);
 
-  return { chat, setChat, ref };
+  useEffect(() => {
+    if (chat.at(-1)?.waiting) {
+      onCompleteRef.current = (txt) => {
+        setChat((currChat) =>
+          currChat.map((msg) => {
+            if (msg.waiting) {
+              return {
+                ...msg,
+                content: msg.content.concat(txt),
+                waiting: false,
+                raw: { ...msg.raw, content: msg.raw.content.concat(txt) },
+              };
+            }
+            return msg;
+          })
+        );
+      };
+    }
+  }, [chat]);
+
+  return { chat, setChat, ref, onComplete: onCompleteRef?.current };
 };
 
 export default useChat;

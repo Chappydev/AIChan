@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
-const TextArea = ({ content = "" }) => {
+const TextArea = ({ content = "", onComplete }) => {
   const [value, setValue] = useState();
   const textbox = useRef();
   useEffect(() => {
@@ -17,6 +17,7 @@ const TextArea = ({ content = "" }) => {
         contentEditable
         suppressContentEditableWarning
         onInput={(e) => setValue(e.target.innerText)}
+        onKeyDown={(e) => e.key === "Enter" && onComplete(value)}
       >
         {" "}
       </span>

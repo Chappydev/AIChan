@@ -49,7 +49,7 @@ const tempData = {
 
 export default function Home() {
   const [refLines, setRefLines] = useState([]);
-  const { chat, setChat, ref: scrollRef } = useChat(refLines);
+  const { chat, setChat, ref: scrollRef, onComplete } = useChat(refLines);
   const options = useOptions(refLines, chat, setChat);
   const { data, error, isLoading } = useAssistant(chat);
   console.log(error);
@@ -93,10 +93,13 @@ export default function Home() {
               /> */}
               <div className={s.chatBubbles} ref={scrollRef}>
                 {chat.map((message, ind) => {
-                  if (message.type === "waiting") {
+                  if (message.waiting) {
                     return (
                       <ChatBubble key={ind} role={message.role}>
-                        <TextArea content={message.content} />
+                        <TextArea
+                          content={message.content}
+                          onComplete={onComplete}
+                        />
                       </ChatBubble>
                     );
                   }
