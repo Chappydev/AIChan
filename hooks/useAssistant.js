@@ -1,17 +1,19 @@
 import { getChatResponse } from "../utility/chatFunctions";
 import useSWRImmutable from "swr/immutable";
-const { useEffect, useState } = require("react");
+const { useEffect, useState, useRef } = require("react");
 
 const useAssistant = (chat) => {
-  const [type, setType] = useState("");
-  const [content, setContent] = useState("");
+  let type = useRef();
+  let content = useRef();
+  let waiting = useRef();
 
   useEffect(() => {
     const lastMsg = chat.at(-1);
 
     if (lastMsg && lastMsg.role === "user") {
-      setType(lastMsg.type);
-      setContent(lastMsg.raw.content);
+      type.current = lastMsg.type;
+      content.current = lastMsg.content;
+      waiting.current = lastMsg.waiting;
     }
   }, [chat]);
 
@@ -19,11 +21,14 @@ const useAssistant = (chat) => {
   // replace with:
   // const shouldFetch = type && content;
   const shouldFetch =
-    type && content && type !== "waiting" && type !== "custom";
+    type.current &&
+    content.current &&
+    !waiting.current &&
+    type.current !== "custom";
 
   // return useSWRImmutable(type && content ? [`/api/${type}`, content] : null, getChatResponse);
   return useSWRImmutable(
-    shouldFetch ? [`/api/${type}`, content] : null,
+    shouldFetch ? [`/api/${type.current}`, content.current] : null,
     getChatResponse,
     {
       errorRetryCount: 2,

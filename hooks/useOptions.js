@@ -12,6 +12,7 @@ const useOptions = (refLines, chat, setChat) => {
               role: "user",
               content: "Insert any missing particles from the selection",
               type: "particles",
+              waiting: false,
               raw: {
                 role: "user",
                 content: refLines.join("\n"),
@@ -31,6 +32,7 @@ const useOptions = (refLines, chat, setChat) => {
               role: "user",
               content: "Expand any contractions from my selection",
               type: "expand",
+              waiting: false,
               raw: {
                 role: "user",
                 content: refLines.join("\n"),
@@ -51,6 +53,7 @@ const useOptions = (refLines, chat, setChat) => {
               content:
                 "Translate my selection to English and explain any parts that may not be accounted for in the translation",
               type: "smartTranslate",
+              waiting: false,
               raw: {
                 role: "user",
                 content: refLines.join("\n"),
@@ -70,7 +73,8 @@ const useOptions = (refLines, chat, setChat) => {
             {
               role: "user",
               content: `Help me understand this text: ${selectedText}. My understanding is: `,
-              type: "waiting",
+              type: "correction",
+              waiting: true,
               raw: {
                 role: "user",
                 content: selectedText,
@@ -94,6 +98,7 @@ const useOptions = (refLines, chat, setChat) => {
                 role: "user",
                 content: "Insert any missing particles from the selection",
                 type: "particles",
+                waiting: false,
                 raw: {
                   role: "user",
                   content: refLines.join("\n"),
@@ -113,6 +118,7 @@ const useOptions = (refLines, chat, setChat) => {
                 role: "user",
                 content: "Expand any contractions from my selection",
                 type: "expand",
+                waiting: false,
                 raw: {
                   role: "user",
                   content: refLines.join("\n"),
@@ -133,6 +139,7 @@ const useOptions = (refLines, chat, setChat) => {
                 content:
                   "Translate my selection to English and explain any parts that may not be accounted for in the translation",
                 type: "smartTranslate",
+                waiting: false,
                 raw: {
                   role: "user",
                   content: refLines.join("\n"),
@@ -152,7 +159,8 @@ const useOptions = (refLines, chat, setChat) => {
               {
                 role: "user",
                 content: `Help me understand this text: ${selectedText}. My understanding is: `,
-                type: "waiting",
+                type: "correction",
+                waiting: true,
                 raw: {
                   role: "user",
                   content: selectedText,
