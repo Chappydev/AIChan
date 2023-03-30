@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const TextArea = ({ content = "" }) => {
+  const [value, setValue] = useState();
   const textbox = useRef();
   useEffect(() => {
     if (textbox && textbox.current) {
@@ -10,7 +11,13 @@ const TextArea = ({ content = "" }) => {
   return (
     <div>
       {content}
-      <span ref={textbox} role="textbox" contentEditable>
+      <span
+        ref={textbox}
+        role="textbox"
+        contentEditable
+        suppressContentEditableWarning
+        onInput={(e) => setValue(e.target.innerText)}
+      >
         {" "}
       </span>
     </div>
