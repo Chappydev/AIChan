@@ -20,7 +20,7 @@ export default async function handler(req, res) {
           content,
         },
       ],
-      temperature: 0.1,
+      temperature: 0.5,
     });
     console.log(data);
 
