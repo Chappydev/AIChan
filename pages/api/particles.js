@@ -9,7 +9,6 @@ export default async function handler(req, res) {
   if (!(req.body && req.body.content)) {
     return res.status(400).json({ error: "must include content" });
   }
-  console.log(req.body);
 
   try {
     const { data } = await openai.createChatCompletion({
