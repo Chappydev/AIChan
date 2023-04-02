@@ -77,7 +77,7 @@ const useOptions = (refLines, chat, setChat) => {
               waiting: true,
               raw: {
                 role: "user",
-                content: `Briefly tell me what parts of this sentence I am understanding incorrectly, referencing the original text in your explanation.\nOriginal: ${selectedText}\nMy understanding: Our officer died in an accident in Ostania. However, our people think it was an assassination by the far-left political party.`,
+                content: `Briefly tell me what parts of this sentence I am understanding incorrectly, referencing the original text in your explanation.\nOriginal: ${selectedText}\nMy understanding: `,
               },
             },
           ]);
@@ -163,7 +163,7 @@ const useOptions = (refLines, chat, setChat) => {
                 waiting: true,
                 raw: {
                   role: "user",
-                  content: `Briefly tell me what parts of this sentence I am understanding incorrectly, referencing the original text in your explanation.\nOriginal: ${selectedText}\nMy understanding: Our officer died in an accident in Ostania. However, our people think it was an assassination by the far-left political party.`,
+                  content: `Briefly tell me what parts of this sentence I am understanding incorrectly, referencing the original text in your explanation.\nOriginal: ${selectedText}\nMy understanding: `,
                 },
               },
             ]);
