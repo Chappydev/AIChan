@@ -20,9 +20,7 @@ const useAssistant = (chat) => {
     }
   }, [chat]);
 
-  // type !== "custom" condition only for testing purposes
-  // replace with:
-  // const shouldFetch = type && content;
+  // custom condition only for testing purposes
   const shouldFetch =
     type.current &&
     content.current &&
@@ -31,7 +29,6 @@ const useAssistant = (chat) => {
       ? !content.current[content.current.length - 1].content.startsWith("//")
       : true);
 
-  // return useSWRImmutable(type && content ? [`/api/${type}`, content] : null, getChatResponse);
   return useSWRImmutable(
     shouldFetch ? [`/api/${type.current}`, content.current] : null,
     getChatResponse,
