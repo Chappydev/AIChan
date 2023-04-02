@@ -12,7 +12,10 @@ const useAssistant = (chat) => {
 
     if (lastMsg && lastMsg.role === "user") {
       type.current = lastMsg.type;
-      content.current = lastMsg.content;
+      content.current =
+        lastMsg.type === "custom"
+          ? chat.filter((msg) => msg.raw).map((msg) => msg.raw)
+          : lastMsg.raw.content;
       waiting.current = lastMsg.waiting;
     }
   }, [chat]);
@@ -24,7 +27,9 @@ const useAssistant = (chat) => {
     type.current &&
     content.current &&
     !waiting.current &&
-    type.current !== "custom";
+    (type.current === "custom"
+      ? !content.current[content.current.length - 1].content.startsWith("//")
+      : true);
 
   // return useSWRImmutable(type && content ? [`/api/${type}`, content] : null, getChatResponse);
   return useSWRImmutable(

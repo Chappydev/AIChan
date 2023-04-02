@@ -1,6 +1,6 @@
 export const getChatResponse = async (keyArr) => {
   const [url, content] = keyArr;
-  console.log(`url: ${url}, content: ${content}`);
+  console.log(`url: ${url}, content: `, content);
   const body = JSON.stringify({
     content: content,
   });

@@ -18,7 +18,7 @@ const ChatInput = ({ chat, setChat }) => {
       type: "custom",
       raw: {
         role: "user",
-        content: text,
+        content: text.replace("{lines}", refLines.join("\n")),
       },
     };
     setChat([...chat, newMsg]);
