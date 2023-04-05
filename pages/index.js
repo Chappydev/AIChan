@@ -1,6 +1,6 @@
 import Head from "next/head";
 import s from "@/styles/Home.module.scss";
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import TextLine from "@/components/TextLine";
 import ChatBubble from "@/components/ChatBubble";
 import { LineContext } from "@/contexts/LineContext";
@@ -10,6 +10,9 @@ import useOptions from "@/hooks/useOptions";
 import useChat from "@/hooks/useChat";
 import ChatLoadingBubble from "@/components/ChatLoadingBubble";
 import TextArea from "@/components/TextArea";
+import dynamic from "next/dynamic";
+import { INITIAL_STATE, reducer } from "@/utility/tourConfig";
+const Tour = dynamic(() => import("../components/Tour"), { ssr: false });
 
 const lines = [
   "大使館まではどれくらいかね。",
@@ -29,30 +32,13 @@ const lines = [
   "あっ…。",
 ];
 
-const tempData = {
-  id: "chatcmpl-6x4l1qHaA4lB4qM4snzrpv5eCo1mE",
-  object: "chat.completion",
-  created: 1679537659,
-  model: "gpt-3.5-turbo-0301",
-  usage: { prompt_tokens: 140, completion_tokens: 17, total_tokens: 157 },
-  choices: [
-    {
-      message: {
-        role: "assistant",
-        content: "なんかうまいこと使ってやれないの？",
-      },
-      finish_reason: "stop",
-      index: 0,
-    },
-  ],
-};
-
 export default function Home() {
   const [refLines, setRefLines] = useState([]);
   const { chat, setChat, ref: scrollRef, onComplete } = useChat(refLines);
   const options = useOptions(refLines, chat, setChat);
   const { data, error, isLoading } = useAssistant(chat);
   console.log(error);
+  const [tourState, dispatch] = useReducer(reducer, INITIAL_STATE);
 
   useEffect(() => {
     if (data) {
@@ -67,20 +53,44 @@ export default function Home() {
     // eslint-disable-next-line
   }, [data]);
 
+  useEffect(() => {
+    if (
+      refLines.length === 1 &&
+      refLines[0].startsWith("オスタニア") &&
+      tourState.stepIndex === 1
+    ) {
+      dispatch({
+        type: "NEXT_OR_PREV",
+        payload: { ...tourState, stepIndex: 2 },
+      });
+    }
+    // eslint-disable-next-line
+  }, [refLines]);
+
   return (
     <>
       <Head>
         <title>Japanese Assistant</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
+      <Tour
+        tourState={tourState}
+        dispatch={dispatch}
+        refLines={refLines}
+        setRefLines={setRefLines}
+      />
       <main className={s.main}>
         <div className={s.wrapper}>
           <LineContext.Provider value={{ refLines, setRefLines }}>
-            <div className={s.textWrapper}>
+            <div id="textArea" className={s.textWrapper}>
               <div className={s.textLines}>
-                {lines.map((line, ind) => (
-                  <TextLine text={line} key={ind} />
-                ))}
+                {lines.map((line, ind) =>
+                  line.startsWith("オスタニア") ? (
+                    <TextLine id="lineSelector" text={line} key={ind} />
+                  ) : (
+                    <TextLine text={line} key={ind} />
+                  )
+                )}
               </div>
             </div>
             <div className={s.chatWrapper}>
@@ -93,7 +103,18 @@ export default function Home() {
               /> */}
               <div className={s.chatBubbles} ref={scrollRef}>
                 {chat.map((message, ind) => {
-                  if (message.waiting) {
+                  if (message.type === "initial") {
+                    return (
+                      <ChatBubble
+                        key={ind}
+                        initial={true}
+                        role={message.role}
+                        options={options}
+                      >
+                        {message.content}
+                      </ChatBubble>
+                    );
+                  } else if (message.waiting) {
                     return (
                       <ChatBubble key={ind} role={message.role}>
                         <TextArea
