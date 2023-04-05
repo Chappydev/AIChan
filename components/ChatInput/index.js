@@ -26,7 +26,7 @@ const ChatInput = ({ chat, setChat }) => {
   };
 
   return (
-    <form className={s.wrapper} onSubmit={handleSubmit}>
+    <form id="chatInput" className={s.wrapper} onSubmit={handleSubmit}>
       <input
         className={s.textInput}
         type="text"

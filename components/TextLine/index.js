@@ -2,7 +2,7 @@ import { LineContext } from "@/contexts/LineContext";
 import React, { useContext, useEffect, useState } from "react";
 import s from "./TextLine.module.scss";
 
-const TextLine = ({ text }) => {
+const TextLine = ({ id, text }) => {
   const { refLines, setRefLines } = useContext(LineContext);
   const [refSelected, setRefSelected] = useState(false);
 
@@ -18,6 +18,7 @@ const TextLine = ({ text }) => {
   return (
     <div>
       <span
+        id={id}
         className={s.refSelector}
         data-selected={refSelected}
         onClick={() => setRefSelected(!refSelected)}
