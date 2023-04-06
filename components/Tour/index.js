@@ -64,9 +64,20 @@ const Tour = ({ tourState, dispatch, refLines, setRefLines }) => {
         disableOverlayClose={true}
         hideCloseButton={true}
         disableScrollParentFix={true}
+        spotlightPadding={8}
         callback={callback}
         locale={{
           last: "Finish",
+          skip: "Skip",
+        }}
+        styles={{
+          options: {
+            arrowColor: "#2c2c2c",
+            backgroundColor: "#2c2c2c",
+            textColor: "white",
+            fontSize: "1.5rem",
+            primaryColor: "#2949ff",
+          },
         }}
       />
     </>
