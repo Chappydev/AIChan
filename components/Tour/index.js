@@ -15,6 +15,7 @@ const Tour = ({ tourState, dispatch, refLines, setRefLines }) => {
       status === STATUS.FINISHED
     ) {
       dispatch({ type: "STOP" });
+      localStorage.setItem("tour", "true");
     } else if (type === EVENTS.STEP_AFTER || type === EVENTS.TARGET_NOT_FOUND) {
       const nextIndex = index + (action === ACTIONS.PREV ? -1 : 1);
       if (refLines.length >= 1 && index === 1) {
