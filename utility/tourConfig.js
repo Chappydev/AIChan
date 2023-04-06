@@ -1,14 +1,20 @@
 export const TOUR_STEPS = [
   {
+    target: "body",
+    content:
+      "Welcome to AIChan - your AI-powered language assistant! Let's begin with a quick tour of the demo, shall we?",
+    placement: "center",
+  },
+  {
     target: "#textArea",
     content:
-      "This is the area where your text would show up. This example page uses some random text, but this section may later be filled with text from subtitles in a show you're watching, or lines from a novel you load in.",
+      "This is the area where your text would show up. As this is a demo, we've simple loaded in some text from a random show, but this section may later be filled with text from various sources (eg. subtitles from a show, lines from a novel, etc.)",
     disableBeacon: true,
   },
   {
     target: "#lineSelector",
     content:
-      "You can select one or more lines by clicking the selector next to it. These lines will be referenced when interacting with the assistant.",
+      "You can select one or more lines by clicking the selector next to it. These lines will be referenced when interacting with the assistant. Try selecting this line before we check out the assistant itself!",
     spotlightClicks: true,
     hideBackButton: true,
     hideCloseButton: true,
@@ -19,13 +25,13 @@ export const TOUR_STEPS = [
   {
     target: "#initMessage",
     content:
-      "This is your Japanese Assistant! It's loaded with built-in functions to help you get more out of native text.",
+      "This is your Japanese assistant! It's loaded with built-in functions to help you get more out of native text. Some features include expanding contractions and correcting your understanding.",
     placement: "left",
   },
   {
     target: "#initChips",
     content:
-      "Built in functions of the assistant are listed here. They will automatically act on your selection in the text view.",
+      "Built in functions of the assistant are listed here. They will automatically act on your selected lines from the text view.",
     placement: "left",
   },
   {
@@ -34,7 +40,7 @@ export const TOUR_STEPS = [
       <div>
         Here you can ask your custom questions/prompts. You can also ask follow
         up questions about previous responses here. To reference your selected
-        lines here, simply type <code>{"'{lines}'"}</code> and it will be
+        lines here, simply type '<code>{"{lines}"}</code>' and it will be
         replaced automatically.
       </div>
     ),
@@ -43,7 +49,7 @@ export const TOUR_STEPS = [
   {
     target: "body",
     content:
-      "Hopefully you can see how powerful this tool could be for language learning. Do be careful though, as the assistant can and does make mistakes.",
+      "Hopefully you can see how powerful AIChan could be for language learning. Do be careful though, as the assistant can and does make mistakes.",
     placement: "center",
   },
 ];
