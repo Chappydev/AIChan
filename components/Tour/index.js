@@ -18,7 +18,7 @@ const Tour = ({ tourState, dispatch, refLines, setRefLines }) => {
       localStorage.setItem("tour", "true");
     } else if (type === EVENTS.STEP_AFTER || type === EVENTS.TARGET_NOT_FOUND) {
       const nextIndex = index + (action === ACTIONS.PREV ? -1 : 1);
-      if (refLines.length >= 1 && index === 1) {
+      if (refLines.length >= 1 && index === 2) {
         dispatch({
           type: "NEXT_OR_PREV",
           payload: {
@@ -31,7 +31,7 @@ const Tour = ({ tourState, dispatch, refLines, setRefLines }) => {
           dispatch({ type: "START" });
         }, 100);
       } else if (
-        index === 2 &&
+        index === 3 &&
         action === ACTIONS.PREV &&
         refLines[0].startsWith("オスタニア")
       ) {

@@ -57,11 +57,11 @@ export default function Home() {
     if (
       refLines.length === 1 &&
       refLines[0].startsWith("オスタニア") &&
-      tourState.stepIndex === 1
+      tourState.stepIndex === 2
     ) {
       dispatch({
         type: "NEXT_OR_PREV",
-        payload: { ...tourState, stepIndex: 2 },
+        payload: { ...tourState, stepIndex: 3 },
       });
     }
     // eslint-disable-next-line
