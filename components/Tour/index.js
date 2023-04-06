@@ -62,6 +62,7 @@ const Tour = ({ tourState, dispatch, refLines, setRefLines }) => {
         showSkipButton={true}
         disableOverlayClose={true}
         hideCloseButton={true}
+        disableScrollParentFix={true}
         callback={callback}
         locale={{
           last: "Finish",
