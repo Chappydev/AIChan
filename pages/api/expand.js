@@ -1,3 +1,4 @@
+import { applyRateLimiting } from "@/utility/api/rateLimit";
 import { Configuration, OpenAIApi } from "openai";
 
 const configuration = new Configuration({
@@ -6,6 +7,12 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 export default async function handler(req, res) {
+  try {
+    await applyRateLimiting(req, res);
+  } catch (error) {
+    console.log(error);
+    return res.status(429).send({ error });
+  }
   if (!(req.body && req.body.content)) {
     return res.status(400).json({ error: "must include content" });
   }

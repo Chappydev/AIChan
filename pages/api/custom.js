@@ -6,6 +6,12 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 export default async function handler(req, res) {
+  try {
+    await applyRateLimiting(req, res);
+  } catch {
+    return res.status(429).send("Request Limit Exceeded");
+  }
+
   if (!(req.body && req.body.content)) {
     return res.status(400).json({ error: "must include content" });
   }
