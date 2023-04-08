@@ -15,6 +15,17 @@ const TextLine = ({ id, text }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- adding refLines causes an infinite loop
   }, [refSelected, text, setRefLines]);
 
+  // Ensure refSelected is up to date with any external changes to refLines
+  // eg. Starting a tour resets the refLines
+  useEffect(() => {
+    if (refSelected && !refLines.some((line) => line === text)) {
+      setRefSelected(false);
+    } else if (!refSelected && refLines.some((line) => line === text)) {
+      setRefSelected(true);
+    }
+    // eslint-disable-next-line
+  }, [refLines, text, setRefSelected]);
+
   return (
     <div>
       <span
