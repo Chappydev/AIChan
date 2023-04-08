@@ -132,6 +132,12 @@ export default function Home() {
                   );
                 })}
                 {isLoading && <ChatLoadingBubble />}
+                {error && (
+                  <ChatBubble error={true} role="assistant">
+                    Something went wrong. You may have reached the request
+                    limit. Please try again later."
+                  </ChatBubble>
+                )}
               </div>
               <ChatInput chat={chat} setChat={setChat} />
             </div>

@@ -32,4 +32,8 @@
     border-top-left-radius: 0px;
     border-top-right-radius: 14px;
   }
+
+  &.error {
+    border: 2px solid c.$red;
+  }
 }
