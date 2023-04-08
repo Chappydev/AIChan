@@ -15,15 +15,18 @@ const useChat = (refLines) => {
   const onCompleteRef = useRef();
 
   const ref = useRef();
-  let chatLengthRef = useRef(chat.length);
+  let chatLengthRef = useRef(0);
 
   // Scroll any new messages into view
   useEffect(() => {
-    if (ref?.current && chat.length > chatLengthRef.current) {
-      chatLengthRef++;
+    console.log(ref?.current?.children.length, chatLengthRef);
+    if (ref?.current?.children.length > chatLengthRef.current) {
       ref.current.scrollTop = ref.current.scrollHeight;
+      chatLengthRef.current = ref?.current?.children.length;
+    } else if (ref?.current?.children.length !== chatLengthRef.current) {
+      chatLengthRef.current = ref?.current?.children.length;
     }
-  }, [ref, chat]);
+  });
 
   useEffect(() => {
     if (chat.length > 1) {
