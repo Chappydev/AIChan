@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import s from "./Tour.module.scss";
 import JoyRide, { ACTIONS, EVENTS, STATUS } from "react-joyride";
 
 const Tour = ({ tourState, dispatch, refLines, setRefLines }) => {
@@ -7,6 +8,11 @@ const Tour = ({ tourState, dispatch, refLines, setRefLines }) => {
       dispatch({ type: "START" });
     }
   }, [dispatch]);
+
+  const handleStartTour = () => {
+    localStorage.removeItem("tour");
+    dispatch({ type: "RESTART" });
+  };
 
   const callback = ({ action, index, type, status }) => {
     if (
@@ -58,6 +64,9 @@ const Tour = ({ tourState, dispatch, refLines, setRefLines }) => {
   };
   return (
     <>
+      <button className={s.tourStartButton} onClick={handleStartTour}>
+        Take a Tour
+      </button>
       <JoyRide
         {...tourState}
         showSkipButton={true}
