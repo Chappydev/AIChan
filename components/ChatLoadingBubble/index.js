@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import ChatBubble from "../ChatBubble";
-import s from "./ChatLoadingBubble.module.scss";
 
 const ChatLoadingBubble = () => {
   const [text, setText] = useState("...");
