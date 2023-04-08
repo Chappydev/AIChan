@@ -10,6 +10,7 @@ const Tour = ({ tourState, dispatch, refLines, setRefLines }) => {
   }, [dispatch]);
 
   const handleStartTour = () => {
+    setRefLines([]);
     localStorage.removeItem("tour");
     dispatch({ type: "RESTART" });
   };
