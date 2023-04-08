@@ -135,7 +135,7 @@ export default function Home() {
                 {error && (
                   <ChatBubble error={true} role="assistant">
                     Something went wrong. You may have reached the request
-                    limit. Please try again later."
+                    limit. Please try again later.
                   </ChatBubble>
                 )}
               </div>
