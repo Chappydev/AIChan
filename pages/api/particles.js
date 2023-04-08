@@ -22,7 +22,7 @@ export default async function handler(req, res) {
       messages: [
         {
           role: "user",
-          content: `Insert any optional particles that were dropped. Original: お前どこ行くの？ Edited: お前はどこに行くの？ Original: 俺の息子にいいプレゼントを上げたいよ Edited: 俺の息子にいいプレゼントを上げたいよ Original: そういうの使うやつって嫌い Edited: そういうのを使うやつって嫌い Original: ${req.body.content} Edited: `,
+          content: `Insert any optional particles that were dropped. Original: お前どこ行くの？ Edited: お前はどこに行くの？ Original: 俺の息子にいいプレゼントを上げてえよ Edited: 俺の息子にいいプレゼントを上げてえよ Original: そういうの使うやつって嫌い Edited: そういうのを使うやつって嫌い Original: 何やってんだ? Edited: 何をやってんだ? Original: ${req.body.content} Edited: `,
         },
       ],
       temperature: 0.1,
