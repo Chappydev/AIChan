@@ -8,7 +8,6 @@
   align-items: center;
   height: 100vh;
   background: linear-gradient(45deg, rgb(255, 136, 0), green);
-  scrollbar-color: c.$lighter-black c.$bg-black;
 }
 
 .wrapper {
@@ -48,5 +47,4 @@
 
 .chatBubbles {
   overflow-y: auto;
-  scrollbar-color: inherit;
 }
