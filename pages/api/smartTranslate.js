@@ -22,10 +22,10 @@ export default async function handler(req, res) {
       messages: [
         {
           role: "user",
-          content: `Translate this text to English and briefly mention any ambiguities (eg. the speaker is not specified) or things that may not be clear from the translation (eg. formal register, harsh tone, etc.): ${req.body.content}`,
+          content: `Translate this text to English and briefly discuss challenges in translating this specific text that may result in lost meaning. If there are none, only provide the translation: ${req.body.content}`,
         },
       ],
-      temperature: 0.1,
+      temperature: 0.2,
     });
     console.log(data);
 
