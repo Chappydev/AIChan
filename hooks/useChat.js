@@ -19,7 +19,6 @@ const useChat = (refLines) => {
 
   // Scroll any new messages into view
   useEffect(() => {
-    console.log(ref?.current?.children.length, chatLengthRef);
     if (ref?.current?.children.length > chatLengthRef.current) {
       ref.current.scrollTop = ref.current.scrollHeight;
       chatLengthRef.current = ref?.current?.children.length;
