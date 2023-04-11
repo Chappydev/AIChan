@@ -2,21 +2,19 @@ import React from "react";
 import s from "./Chips.module.scss";
 import AccordionChip from "../AccordionChip";
 import Chip from "../Chip";
+import useChips from "@/hooks/useChips";
 
 const Chips = ({ initial = false, options }) => {
-  // replace this with some logic to determine how much space there is
-  const numberOfChips = 3;
-  const visibleOptions = options.slice(0, numberOfChips - 1);
-  const hiddenOptions = options.slice(numberOfChips - 1);
+  const [visibleOptions, hiddenOptions, containerRef] = useChips(options);
 
   return (
-    <div id={initial ? "initChips" : ""} className={s.chips}>
+    <div id={initial ? "initChips" : ""} className={s.chips} ref={containerRef}>
       {visibleOptions.map((option, ind) => (
         <Chip key={ind} onClick={option.handler}>
           {option.name}
         </Chip>
       ))}
-      <AccordionChip options={hiddenOptions} />
+      {hiddenOptions.length >= 1 && <AccordionChip options={hiddenOptions} />}
     </div>
   );
 };

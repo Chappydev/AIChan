@@ -3,7 +3,8 @@
 .chips {
   display: flex;
   gap: s.$gap;
-  > div:last-child {
-    margin-left: auto;
-  }
+  justify-content: space-between;
+  // > div:last-child {
+  //   margin-left: auto;
+  // }
 }
