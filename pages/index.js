@@ -12,21 +12,21 @@ import ChatLoadingBubble from "@/components/ChatLoadingBubble";
 import TextArea from "@/components/TextArea";
 import dynamic from "next/dynamic";
 import { INITIAL_STATE, reducer } from "@/utility/tourConfig";
+import TextAreaInput from "@/components/TextAreaInput";
 const Tour = dynamic(() => import("../components/Tour"), { ssr: false });
 
-const lines = [
-  "お前、誰？",
-  "最近何してんの？",
-  "オスタニアにおいて、我が国の外交官が事故死した。だが当局は、東の極右政党による、暗殺と見ている。",
-  "ヤツらは、我がウェスタリスへの戦争を企てている。なんとしても、その計画を突き止めねば…。",
-  "彼に任せよう。うちで最も腕の立つエージェント…黄昏。",
-  "約束の物だ。",
-  "外務大臣がヅラだという証拠写真。ネガもある。",
-  "よくやった。",
-  "これでヤツを辞任に追い込める。次も、頼んだぞ。",
-];
-
 export default function Home() {
+  const [lines, setLines] = useState([
+    "お前、誰？",
+    "最近何してんの？",
+    "オスタニアにおいて、我が国の外交官が事故死した。だが当局は、東の極右政党による、暗殺と見ている。",
+    "ヤツらは、我がウェスタリスへの戦争を企てている。なんとしても、その計画を突き止めねば…。",
+    "彼に任せよう。うちで最も腕の立つエージェント…黄昏。",
+    "約束の物だ。",
+    "外務大臣がヅラだという証拠写真。ネガもある。",
+    "よくやった。",
+    "これでヤツを辞任に追い込める。次も、頼んだぞ。",
+  ]);
   const [refLines, setRefLines] = useState([]);
   const { chat, setChat, ref: scrollRef, onComplete } = useChat(refLines);
   const options = useOptions(refLines, chat, setChat);
@@ -86,6 +86,7 @@ export default function Home() {
                   )
                 )}
               </div>
+              <TextAreaInput lines={lines} setLines={setLines} />
             </div>
             <div className={s.chatWrapper}>
               {/* <ChatBubble message={chat} />

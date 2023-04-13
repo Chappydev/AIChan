@@ -28,10 +28,10 @@
 }
 
 .textWrapper {
-  overflow-y: auto;
   line-height: 200%;
 }
 
+.textWrapper,
 .chatWrapper {
   display: flex;
   flex-direction: column;
@@ -43,8 +43,5 @@
 .chatBubbles {
   flex: 1 1 0;
   padding: 1rem;
-}
-
-.chatBubbles {
   overflow-y: auto;
 }
