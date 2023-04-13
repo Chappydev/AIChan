@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const useChips = (options) => {
-  const [visibleOptions, setVisibleOptions] = useState(options);
-  const [hiddenOptions, setHiddenOptions] = useState([]);
+  const [firstHiddenInd, setFirstHiddenInd] = useState(options.length);
   const containerRef = useRef();
 
   // function triggers its own recreation if the chips overflow
@@ -13,17 +12,9 @@ const useChips = (options) => {
     if (
       containerRef?.current?.scrollWidth > containerRef?.current?.offsetWidth
     ) {
-      console.log(
-        [visibleOptions[visibleOptions.length - 1], ...hiddenOptions],
-        visibleOptions.slice(0, visibleOptions.length)
-      );
-      setHiddenOptions([
-        visibleOptions[visibleOptions.length - 1],
-        ...hiddenOptions,
-      ]);
-      setVisibleOptions(visibleOptions.slice(0, visibleOptions.length - 1));
+      setFirstHiddenInd(firstHiddenInd - 1);
     }
-  }, [containerRef, visibleOptions, hiddenOptions]);
+  }, [containerRef, firstHiddenInd]);
 
   useEffect(() => {
     updateChips();
@@ -38,8 +29,7 @@ const useChips = (options) => {
 
       // reset options and resize from there
       timeout = setTimeout(() => {
-        setVisibleOptions(options);
-        setHiddenOptions([]);
+        setFirstHiddenInd(options.length);
         updateChips();
       }, 300);
     };
@@ -48,7 +38,11 @@ const useChips = (options) => {
     return () => window.removeEventListener("resize", resetAndUpdateChips);
   }, [updateChips, options]);
 
-  return [visibleOptions, hiddenOptions, containerRef];
+  return [
+    options.slice(0, firstHiddenInd) || [],
+    options.slice(firstHiddenInd) || [],
+    containerRef,
+  ];
 };
 
 export default useChips;
