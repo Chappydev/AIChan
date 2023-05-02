@@ -1,3 +1,29 @@
-.video {
+.videoContainer {
+  position: relative;
   width: 800px;
+}
+
+.video {
+  width: 100%;
+}
+
+.controls {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 48px;
+}
+
+.playPauseBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  height: 100%; 
+  cursor: pointer;
+  transition: opacity 0.03s linear;
+  &:hover {
+    opacity: 0.8;
+  }
 }
