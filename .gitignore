@@ -33,3 +33,5 @@ yarn-error.log*
 
 
 /pages/api/testRequests
+
+/raw-icons
