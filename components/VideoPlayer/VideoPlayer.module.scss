@@ -12,7 +12,22 @@
   left: 0;
   right: 0;
   bottom: 0;
+  display: flex;
+  justify-content: space-between;
   height: 48px;
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    height: 100%; 
+    cursor: pointer;
+    transition: opacity 0.03s linear;
+    &:hover {
+      opacity: 0.8;
+    } 
+  }
 }
 
 .playPauseBtn {

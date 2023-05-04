@@ -2,7 +2,9 @@ import { useEffect, useRef, useState } from "react"
 
 const useVideo = () => {
   const [isPlay, setIsPlay] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const videoRef = useRef(null);
+  const videoContainerRef = useRef(null);
 
   const togglePlay = async () => {
     if (!videoRef?.current) {
@@ -27,6 +29,27 @@ const useVideo = () => {
     }
   }
 
+  const toggleFullScreenMode = async () => {
+    if (document.fullscreenElement == null && videoContainerRef.current) {
+      try {
+        if (videoContainerRef.current.requestFullscreen) {
+          await videoContainerRef.current.requestFullscreen();
+        } else if (videoContainerRef.current.webkitRequestFullscreen) { /* Safari */
+          await videoContainerRef.current.webkitRequestFullscreen();
+        } else if (videoContainerRef.current.msRequestFullscreen) { /* IE11 */
+          await videoContainerRef.current.msRequestFullscreen();
+        }
+
+        setIsFullscreen(true);
+      } catch (error) {
+        console.error(err);
+      }
+    } else {
+      document.exitFullscreen();
+      setIsFullscreen(false);
+    }
+  }
+
   useEffect(() => {
     const playHandler = () => {
       setIsPlay(true);
@@ -45,8 +68,22 @@ const useVideo = () => {
     return () => {
       videoRef.current.removeEventListener('play', playHandler);
       videoRef.current.removeEventListener('pause', pauseHandler);
-    }
+    };
   }, [videoRef?.current])
+
+  useEffect(() => {
+    const fullscreenHandler = () => {
+      if (document.fullscreenElement === videoContainerRef.current) {
+        setIsFullscreen(true);
+      } else {
+        setIsFullscreen(false);
+      }
+    }
+
+    document.addEventListener('fullscreenchange', fullscreenHandler);
+
+    return () => document.removeEventListener('fullscreenchange', fullscreenHandler);
+  }, [videoContainerRef?.current])
 
   useEffect(() => {
     const keydownHandler = (e) => {
@@ -56,6 +93,9 @@ const useVideo = () => {
         case "k":
           togglePlay();
           break;
+        case 'f':
+          toggleFullScreenMode();
+          break;
       }
     }
 
@@ -64,7 +104,7 @@ const useVideo = () => {
     return () => window.removeEventListener('keydown', keydownHandler);
   }, []);
 
-  return { isPlay, togglePlay, videoRef };
+  return { isPlay, isFullscreen, togglePlay, toggleFullScreenMode, videoRef, videoContainerRef };
 }
 
 export default useVideo;
