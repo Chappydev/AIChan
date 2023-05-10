@@ -9,6 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.8",
+    "@emotion/styled": "^11.10.8",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/material": "^5.12.3",
     "@vercel/analytics": "^0.1.11",
     "eslint": "8.36.0",
     "eslint-config-next": "13.2.4",

@@ -1,10 +1,7 @@
 import React from "react";
 import s from './VideoPlayer.module.scss';
-import Play from "../material-icons/Play";
-import Pause from "../material-icons/Pause";
 import useVideo from "@/hooks/useVideo";
-import FullscreenExit from "../material-icons/FullscreenExit";
-import Fullscreen from "../material-icons/Fullscreen";
+import { FullscreenExitRounded, FullscreenRounded, PauseRounded, PlayArrowRounded } from "@mui/icons-material";
 
 const VideoPlayer = ({ src, videoTagRef }) => {
   const { isPlay, isFullscreen, togglePlay, toggleFullScreenMode, videoRef, videoContainerRef } = useVideo();
@@ -15,8 +12,8 @@ const VideoPlayer = ({ src, videoTagRef }) => {
       </video>
       {/* controls */}
       <div className={s.controls}>
-        <button className={s.playPauseBtn} onClick={togglePlay}>{isPlay ? <Pause /> : <Play />}</button>
-        <button className={s.fullscreenBtn} onClick={toggleFullScreenMode}>{isFullscreen ? <FullscreenExit /> : <Fullscreen />}</button>
+        <button className={s.playPauseBtn} onClick={togglePlay}>{isPlay ? <PauseRounded fontSize="large" /> : <PlayArrowRounded fontSize="large" />}</button>
+        <button className={s.fullscreenBtn} onClick={toggleFullScreenMode}>{isFullscreen ? <FullscreenExitRounded fontSize="large" /> : <FullscreenRounded fontSize="large" />}</button>
       </div>
     </div>
   )
