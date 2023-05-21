@@ -14,6 +14,7 @@
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.3",
     "@vercel/analytics": "^0.1.11",
+    "ass-compiler": "^0.1.8",
     "eslint": "8.36.0",
     "eslint-config-next": "13.2.4",
     "express-rate-limit": "^6.7.0",
@@ -23,6 +24,8 @@
     "react-dom": "18.2.0",
     "react-joyride": "^2.5.3",
     "sass": "^1.59.3",
-    "swr": "^2.1.1"
+    "subtitle": "^4.2.1",
+    "swr": "^2.1.1",
+    "vtt.js": "^0.13.0"
   }
 }
