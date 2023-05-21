@@ -50,6 +50,30 @@ const useVideo = () => {
     }
   }
 
+  const skipBackwardFive = () => {
+    if (!videoRef.current.src) {
+      return;
+    }
+
+    if (videoRef.current.currentTime <= 5) {
+      videoRef.current.currentTime = 0;
+    } else {
+      videoRef.current.currentTime = videoRef.current.currentTime - 5;
+    }
+  }
+
+  const skipForwardFive = () => {
+    if (!videoRef.current.src) {
+      return;
+    }
+
+    if (videoRef.current.currentTime >= videoRef.current.duration - 5) {
+      videoRef.current.currentTime = videoRef.current.duration;
+    } else {
+      videoRef.current.currentTime = videoRef.current.currentTime + 5;
+    }
+  }
+
   useEffect(() => {
     const playHandler = () => {
       setIsPlay(true);
@@ -96,6 +120,12 @@ const useVideo = () => {
         case 'f':
           toggleFullScreenMode();
           break;
+        case 'l':
+          skipForwardFive();
+          break;
+        case 'j':
+          skipBackwardFive();
+          break;
       }
     }
 
@@ -104,7 +134,7 @@ const useVideo = () => {
     return () => window.removeEventListener('keydown', keydownHandler);
   }, []);
 
-  return { isPlay, isFullscreen, togglePlay, toggleFullScreenMode, videoRef, videoContainerRef };
+  return { isPlay, isFullscreen, togglePlay, toggleFullScreenMode, skipForwardFive, videoRef, videoContainerRef };
 }
 
 export default useVideo;
