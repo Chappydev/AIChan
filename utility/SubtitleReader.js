@@ -1,16 +1,16 @@
 import { compile as parseAss } from 'ass-compiler';
-import { Cue, parseSync as parseSrt, Node as SrtNode, stringifySync as writeSrt } from 'subtitle';
+import { parseSync as parseSrt } from 'subtitle';
 import { WebVTT } from 'vtt.js';
 
 export default class SubtitleReader {
   async subtitles(files) {
-    return (await Promise.all(files.map((f) => this.#subtitles(f))))
+    return (await Promise.all(files.map((f, i) => this.#subtitles(f, i))))
       .flatMap((nodes) => nodes)
       .filter((node) => node.textImage !== undefined || node.text !== '')
       .sort((n1, n2) => n1.start - n2.start);
   }
 
-  async #subtitles(file) {
+  async #subtitles(file, track) {
     if (file.name.endsWith('.srt')) {
       const nodes = parseSrt(await file.text());
       return nodes

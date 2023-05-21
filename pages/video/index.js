@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import s from './Video.module.scss';
 import VideoPlayer from "@/components/VideoPlayer";
 import FileUploadForm from "@/components/FileUploadForm";
@@ -7,9 +7,21 @@ import SubtitleReader from "@/utility/SubtitleReader";
 
 const Video = () => {
   const [videoSrc, setVideoSrc] = useState(null);
+  const [subtitleFiles, setSubtitleFiles] = useState([]);
+  console.log(videoSrc, subtitleFiles);
   const [subtitles, setSubtitles] = useState([]);
-  console.log(videoSrc, subtitles);
+  console.log(subtitles);
   const videoTagRef = useRef();
+
+  const subtitleReader = useMemo(() => {
+    return new SubtitleReader();
+  }, [SubtitleReader]);
+
+  useEffect(() => {
+    (async () => {
+      setSubtitles(await subtitleReader.subtitles(subtitleFiles));
+    })()
+  }, [subtitleFiles, subtitleReader, setSubtitles])
 
 
   const handleSources = (sources) => {
@@ -33,7 +45,7 @@ const Video = () => {
       }
 
     })
-    setSubtitles(subtitleFiles);
+    setSubtitleFiles(subtitleFiles);
 
     if (videoTagRef?.current) {
       videoTagRef.current.load();
