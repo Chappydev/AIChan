@@ -90,8 +90,8 @@ const useVideo = () => {
     }
 
     return () => {
-      videoRef.current.removeEventListener('play', playHandler);
-      videoRef.current.removeEventListener('pause', pauseHandler);
+      videoRef?.current?.removeEventListener('play', playHandler);
+      videoRef?.current?.removeEventListener('pause', pauseHandler);
     };
   }, [videoRef?.current])
 
