@@ -30,22 +30,9 @@ export default function Home() {
   const [refLines, setRefLines] = useState([]);
   const { chat, setChat, ref: scrollRef, onComplete } = useChat(refLines);
   const options = useOptions(refLines, chat, setChat);
-  const { data, error, isLoading } = useAssistant(chat);
+  const { data, error, isLoading } = useAssistant(chat, setChat);
   console.log(error);
   const [tourState, dispatch] = useReducer(reducer, INITIAL_STATE);
-
-  useEffect(() => {
-    if (data) {
-      const newChat = {
-        content: data.content,
-        role: data.role,
-        type: chat[chat.length - 1],
-        raw: data,
-      };
-      setChat([...chat, newChat]);
-    }
-    // eslint-disable-next-line
-  }, [data]);
 
   useEffect(() => {
     if (

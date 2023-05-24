@@ -8,11 +8,11 @@ import TextLinesView from "@/components/TextLinesView";
 import { LineContext } from "@/contexts/LineContext";
 import useChat from "@/hooks/useChat";
 import ChatBubble from "@/components/ChatBubble";
-import TextArea from "@/components/TextArea";
-import ChatLoadingBubble from "@/components/ChatLoadingBubble";
-import ChatInput from "@/components/ChatInput";
 import useOptions from "@/hooks/useOptions";
 import useAssistant from "@/hooks/useAssistant";
+import ChatInput from "@/components/ChatInput";
+import TextArea from "@/components/TextArea";
+import ChatLoadingBubble from "@/components/ChatLoadingBubble";
 
 const Video = () => {
   const [videoSrc, setVideoSrc] = useState(null);
@@ -24,20 +24,7 @@ const Video = () => {
   const videoTagRef = useRef();
   const { chat, setChat, ref: scrollRef, onComplete } = useChat(refLines);
   const options = useOptions(refLines, chat, setChat);
-  const { data, error, isLoading } = useAssistant(chat);
-
-  useEffect(() => {
-    if (data) {
-      const newChat = {
-        content: data.content,
-        role: data.role,
-        type: chat[chat.length - 1],
-        raw: data,
-      };
-      setChat([...chat, newChat]);
-    }
-    // eslint-disable-next-line
-  }, [data]);
+  const { isLoading, error } = useAssistant(chat, setChat);
 
   const subtitleReader = useMemo(() => {
     return new SubtitleReader();

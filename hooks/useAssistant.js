@@ -1,8 +1,8 @@
 import { getChatResponse } from "../utility/chatFunctions";
 import useSWRImmutable from "swr/immutable";
-const { useEffect, useState, useRef } = require("react");
+const { useEffect, useRef } = require("react");
 
-const useAssistant = (chat) => {
+const useAssistant = (chat, setChat) => {
   let type = useRef();
   let content = useRef();
   let waiting = useRef();
@@ -29,13 +29,28 @@ const useAssistant = (chat) => {
       ? !content.current[content.current.length - 1].content.startsWith("//")
       : true);
 
-  return useSWRImmutable(
+  const response = useSWRImmutable(
     shouldFetch ? [`/api/${type.current}`, content.current] : null,
     getChatResponse,
     {
       errorRetryCount: 2,
     }
   );
+
+  useEffect(() => {
+    if (response.data) {
+      const newChat = {
+        content: data.content,
+        role: data.role,
+        type: chat[chat.length - 1],
+        raw: data,
+      };
+      setChat([...chat, newChat]);
+    }
+    // eslint-disable-next-line
+  }, [response.data]);
+
+  return response;
 };
 
 export default useAssistant;
