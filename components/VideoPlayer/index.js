@@ -12,7 +12,7 @@ const VideoPlayer = ({ src, subtitles, videoTagRef }) => {
       <video className={s.video} ref={(el) => { videoTagRef.current = el; videoRef.current = el; }} src={src}>
       </video>
       {/* controls */}
-      <SubtitlePlayer src={subtitles} />
+      <SubtitlePlayer subtitles={subtitles} />
       <div className={s.controls}>
         <button className={s.playPauseBtn} onClick={togglePlay}>{isPlay ? <PauseRounded fontSize="large" /> : <PlayArrowRounded fontSize="large" />}</button>
         <button className={s.forwardFiveBtn} onClick={skipForwardFive}>{isPlay ? <Forward5Rounded fontSize="large" /> : <Forward5Rounded fontSize="large" />}</button>

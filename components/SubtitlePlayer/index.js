@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SubtitlePlayer = ({ src }) => {
+const SubtitlePlayer = ({ subtitles }) => {
   return (
     <div>
     </div>
