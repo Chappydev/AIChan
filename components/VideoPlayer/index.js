@@ -6,18 +6,17 @@ import SubtitlePlayer from "../SubtitlePlayer";
 import SubtitleManager from "@/utility/SubtitleManager";
 
 const VideoPlayer = ({ src, subtitles, onTimeUpdate, videoTagRef }) => {
-  const { isPlay, isFullscreen, togglePlay, toggleFullScreenMode, skipForwardFive, videoRef, videoContainerRef } = useVideo();
+  const { videoClock, isPlay, isFullscreen, togglePlay, toggleFullScreenMode, skipForwardFive, videoRef, videoContainerRef } = useVideo();
 
   const [currentSubtitles, setCurrentSubtitles] = useState([]);
   const subtitleManager = useMemo(() => new SubtitleManager(subtitles), [subtitles, SubtitleManager]);
 
-  // TODO: Refactor time to be more precise. In it's current state, the subtitle is only accurate to the second which kinda sucks
   useEffect(() => {
     let interval;
 
-    if (videoRef?.current?.currentTime) {
+    if (videoClock) {
       interval = setInterval(() => {
-        const subtitlesAtTime = subtitleManager.findSubtitleAt(Math.floor(videoRef?.current.currentTime) * 1000);
+        const subtitlesAtTime = subtitleManager.findSubtitleAt(videoClock.getTime());
         setCurrentSubtitles(subtitlesAtTime);
       }, 100)
     } else {
@@ -25,7 +24,7 @@ const VideoPlayer = ({ src, subtitles, onTimeUpdate, videoTagRef }) => {
     }
 
     return () => clearInterval(interval);
-  }, [subtitleManager, setCurrentSubtitles, videoRef?.current])
+  }, [subtitleManager, setCurrentSubtitles, videoClock])
 
   return (
     <div className={s.videoContainer} ref={videoContainerRef}>

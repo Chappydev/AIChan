@@ -1,10 +1,19 @@
-import { useEffect, useRef, useState } from "react"
+import Clock from "@/utility/Clock";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 
 const useVideo = () => {
   const [isPlay, setIsPlay] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [duration, setDuration] = useState(undefined);
   const videoRef = useRef(null);
   const videoContainerRef = useRef(null);
+  const videoClock = useMemo(() => {
+    if (duration * 1000) {
+      return new Clock(videoRef.current.duration);
+    }
+
+    return null;
+  }, [duration]);
 
   const togglePlay = async () => {
     if (!videoRef?.current) {
@@ -50,50 +59,72 @@ const useVideo = () => {
     }
   }
 
-  const skipBackwardFive = () => {
+  const skipBackwardFive = useCallback(() => {
     if (!videoRef.current.src) {
       return;
     }
+
+    let newTime;
 
     if (videoRef.current.currentTime <= 5) {
-      videoRef.current.currentTime = 0;
+      newTime = 0;
     } else {
-      videoRef.current.currentTime = videoRef.current.currentTime - 5;
+      newTime = videoRef.current.currentTime - 5;
     }
-  }
+    videoRef.current.currentTime = newTime;
+    videoClock.setTime(newTime * 1000);
+  }, [videoClock]);
 
-  const skipForwardFive = () => {
+  const skipForwardFive = useCallback(() => {
     if (!videoRef.current.src) {
       return;
     }
 
+    let newTime;
+
     if (videoRef.current.currentTime >= videoRef.current.duration - 5) {
-      videoRef.current.currentTime = videoRef.current.duration;
+      newTime = videoRef.current.duration;
     } else {
-      videoRef.current.currentTime = videoRef.current.currentTime + 5;
+      newTime = videoRef.current.currentTime + 5
     }
-  }
+    videoRef.current.currentTime = newTime;
+    videoClock.setTime(newTime * 1000);
+  }, [videoClock]);
+
+  const playHandler = useCallback(() => {
+    setIsPlay(true);
+    if (videoClock) {
+      videoClock.start();
+    }
+  }, [videoClock]);
+
+  const pauseHandler = useCallback(() => {
+    setIsPlay(false);
+    if (videoClock) {
+      videoClock.pause();
+    }
+  }, [videoClock]);
+
+  const durationChangeHandler = () => {
+    setDuration(videoRef?.current?.duration);
+  };
 
   useEffect(() => {
-    const playHandler = () => {
-      setIsPlay(true);
-    };
-
-    const pauseHandler = () => {
-      setIsPlay(false);
-    };
     if (videoRef?.current) {
 
       videoRef.current.addEventListener('play', playHandler)
 
       videoRef.current.addEventListener('pause', pauseHandler)
+
+      videoRef.current.addEventListener('durationchange', durationChangeHandler);
     }
 
     return () => {
       videoRef?.current?.removeEventListener('play', playHandler);
       videoRef?.current?.removeEventListener('pause', pauseHandler);
+      videoRef?.current?.removeEventListener('durationchange', durationChangeHandler);
     };
-  }, [videoRef?.current])
+  }, [videoRef?.current, playHandler, pauseHandler])
 
   useEffect(() => {
     const fullscreenHandler = () => {
@@ -111,7 +142,6 @@ const useVideo = () => {
 
   useEffect(() => {
     const keydownHandler = (e) => {
-      console.log(e);
       switch (e.key.toLowerCase()) {
         case " ":
         case "k":
@@ -132,9 +162,9 @@ const useVideo = () => {
     window.addEventListener('keydown', keydownHandler);
 
     return () => window.removeEventListener('keydown', keydownHandler);
-  }, []);
+  }, [togglePlay, toggleFullScreenMode, skipForwardFive, skipBackwardFive]);
 
-  return { isPlay, isFullscreen, togglePlay, toggleFullScreenMode, skipForwardFive, videoRef, videoContainerRef };
+  return { videoClock, isPlay, isFullscreen, togglePlay, toggleFullScreenMode, skipForwardFive, videoRef, videoContainerRef };
 }
 
 export default useVideo;
