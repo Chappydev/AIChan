@@ -4,8 +4,8 @@ import s from './SubtitlePlayer.module.scss';
 const SubtitlePlayer = ({ subtitles }) => {
   return (
     <div className={s.wrapper}>
-      {subtitles.map(sub => {
-        return <div className={s.subtitleLine}>{sub.text}</div>
+      {subtitles.map((sub, i) => {
+        return <div key={i} className={s.subtitleLine}>{sub.text}</div>
       })}
     </div>
   )
