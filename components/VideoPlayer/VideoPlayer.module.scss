@@ -19,8 +19,26 @@
   .timeControls {
     width: 100%;
     display: flex;
-    justify-content: space-between;
     font-size: 0.95rem;
+
+    .timeLine {
+      flex: 1 0 0;
+      width: auto;
+      background-color: white;
+      position: relative;
+
+      .currentTimeLine {
+        position: absolute;
+        top: 0; 
+        bottom: 0;
+        left: 0;
+        width: 0%;
+        background-color: orange;
+        // this seems like a kind of hacky solution and probably should be changed
+        // but the alternative seems hard and this is not too bad so whatever
+        transition: width 0.5s linear;
+      }
+    }
   }
 
   .buttonControls {

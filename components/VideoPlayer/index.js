@@ -10,19 +10,19 @@ const VideoPlayer = ({ src, subtitles, videoTagRef }) => {
   const { videoClock, isPlay, isFullscreen, togglePlay, toggleFullScreenMode, skipForwardFive, videoRef, videoContainerRef } = useVideo();
 
   const [currentSubtitles, setCurrentSubtitles] = useState([]);
-  const [currentTime, setCurrentTime] = useState('00:00');
-  const [videoLength, setVideoLength] = useState('00:00');
+  const [currentTime, setCurrentTime] = useState(0);
+  const [videoLength, setVideoLength] = useState(0);
   const subtitleManager = useMemo(() => new SubtitleManager(subtitles), [subtitles, SubtitleManager]);
 
   const timeUpdateHandler = (e) => {
-    setCurrentTime(getReadableTime(e.target.currentTime));
+    setCurrentTime(e.target.currentTime);
   }
 
   const durationChangeHandler = (e) => {
     if (!e.target.duration) {
-      setVideoLength('00:00');
+      setVideoLength(0);
     }
-    setVideoLength(getReadableTime(e.target.duration));
+    setVideoLength(e.target.duration);
   }
 
   useEffect(() => {
@@ -49,8 +49,9 @@ const VideoPlayer = ({ src, subtitles, videoTagRef }) => {
       <div className={s.controls
       } >
         <div className={s.timeControls}>
-          <div>{currentTime}</div>
-          <div>{videoLength}</div>
+          <div>{getReadableTime(currentTime)}</div>
+          <div className={s.timeLine}><div className={s.currentTimeLine} style={{ width: `${Math.min(Math.max((currentTime / videoLength) * 100, 0), 100)}%` }}></div></div>
+          <div>{getReadableTime(videoLength)}</div>
         </div>
         <div className={s.buttonControls}>
           <button className={s.playPauseBtn} onClick={togglePlay}>{isPlay ? <PauseRounded fontSize="large" /> : <PlayArrowRounded fontSize="large" />}</button>
