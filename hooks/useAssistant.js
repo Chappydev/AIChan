@@ -39,6 +39,7 @@ const useAssistant = (chat, setChat) => {
 
   useEffect(() => {
     if (response.data) {
+      const { data } = response;
       const newChat = {
         content: data.content,
         role: data.role,
