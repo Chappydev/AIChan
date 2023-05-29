@@ -34,6 +34,7 @@ const VideoPlayer = ({ src, subtitles, videoTagRef }) => {
     const mouseWidth = Math.max(Math.min(e.pageX - rect.x, e.currentTarget.clientWidth), 0);
     const ratio = mouseWidth / fullWidth;
     videoRef.current.currentTime = ratio * videoLength;
+    videoClock.setTime(videoRef.current.currentTime * 1000);
   }
 
   const mouseMoveHandler = (e) => {
@@ -52,7 +53,6 @@ const VideoPlayer = ({ src, subtitles, videoTagRef }) => {
 
   const mouseUpHandler = () => {
     if (!wasPaused.current) {
-      console.log('should play!')
       videoRef.current.play();
     }
     setMouseIsDown(false);
