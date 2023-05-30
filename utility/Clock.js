@@ -37,6 +37,8 @@ export default class Clock {
 
   setTime(time) {
     this.#savedTime = time;
-    this.#startTime = Date.now();
+    if (this.#startTime !== undefined) {
+      this.#startTime = Date.now();
+    }
   }
 }
