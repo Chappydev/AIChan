@@ -142,6 +142,11 @@ const useVideo = () => {
 
   useEffect(() => {
     const keydownHandler = (e) => {
+      const isTypableInput = e.target.tagName === 'INPUT' && ['text', 'email', 'password', 'search', 'tel'].includes(e.target.type);
+      const isContentEditableElem = e.target.isContentEditable;
+      const isTextArea = e.target.tagName === 'TEXTAREA';
+      if (isContentEditableElem || isTypableInput || isTextArea) return;
+      if (e.shiftKey || e.ctrlKey || e.metaKey) return;
       switch (e.key.toLowerCase()) {
         case " ":
         case "k":
