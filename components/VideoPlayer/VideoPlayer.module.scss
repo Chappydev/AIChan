@@ -1,5 +1,15 @@
-.videoContainer {
+@use '../../styles/colors' as c;
+
+.outerWrapper {
+  flex: 2 1 0;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+
+.videoContainer {
   width: 100%;
   aspect-ratio: 16 / 9;
 }
@@ -22,7 +32,23 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: end;
+    justify-content: flex-end;
+  }
+
+  .sidebarTab {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1 / 1;
+    padding: 0.1rem;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    background-color: c.$bg-black;
+    cursor: pointer; 
   }
 
   .timeControls {

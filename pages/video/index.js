@@ -4,15 +4,7 @@ import VideoPlayer from "@/components/VideoPlayer";
 import FileUploadForm from "@/components/FileUploadForm";
 import Head from "next/head";
 import SubtitleReader from "@/utility/SubtitleReader";
-import TextLinesView from "@/components/TextLinesView";
-import { LineContext } from "@/contexts/LineContext";
-import useChat from "@/hooks/useChat";
-import ChatBubble from "@/components/ChatBubble";
-import useOptions from "@/hooks/useOptions";
-import useAssistant from "@/hooks/useAssistant";
-import ChatInput from "@/components/ChatInput";
-import TextArea from "@/components/TextArea";
-import ChatLoadingBubble from "@/components/ChatLoadingBubble";
+import { LinesAssistant } from "@/components/LinesAssistant";
 
 const Video = () => {
   const [videoSrc, setVideoSrc] = useState(null);
@@ -20,11 +12,8 @@ const Video = () => {
   console.log(videoSrc, subtitleFiles);
   const [subtitles, setSubtitles] = useState([]);
   console.log(subtitles);
-  const [refLines, setRefLines] = useState([]);
+  const [showAssistant, setShowAssistant] = useState(false);
   const videoTagRef = useRef();
-  const { chat, setChat, ref: scrollRef, onComplete } = useChat(refLines);
-  const options = useOptions(refLines, chat, setChat);
-  const { isLoading, error } = useAssistant(chat, setChat);
 
   const subtitleReader = useMemo(() => {
     return new SubtitleReader();
@@ -62,6 +51,8 @@ const Video = () => {
     }
   }
 
+  const toggleSidebar = () => setShowAssistant(!showAssistant);
+
 
   return (
     <>
@@ -71,60 +62,9 @@ const Video = () => {
       </Head>
       <div className={s.outerWrapper}>
         <FileUploadForm handleSources={handleSources} />
-        <VideoPlayer src={videoSrc?.fileUrl} subtitles={subtitles} videoTagRef={videoTagRef} />
-        {/* chat */}
-        <div className={s.textAndChatWrapper}>
-          <LineContext.Provider value={{ refLines, setRefLines }}>
-            <TextLinesView lines={subtitles.map(s => s.text)} />
-            <div className={s.chatWrapper}>
-              {/* <ChatBubble message={chat} />
-              <ChatBubble
-                message={{
-                  role: "user",
-                  content: `Lines: ${refLines.length} ${refLines.at(-1)}`,
-                }}
-              /> */}
-              <div className={s.chatBubbles} ref={scrollRef}>
-                {chat.map((message, ind) => {
-                  if (message.type === "initial") {
-                    return (
-                      <ChatBubble
-                        key={ind}
-                        initial={true}
-                        role={message.role}
-                        options={options}
-                      >
-                        {message.content}
-                      </ChatBubble>
-                    );
-                  } else if (message.waiting) {
-                    return (
-                      <ChatBubble key={ind} role={message.role}>
-                        <TextArea
-                          content={message.content}
-                          onComplete={onComplete}
-                        />
-                      </ChatBubble>
-                    );
-                  }
-
-                  return (
-                    <ChatBubble key={ind} role={message.role} options={options}>
-                      {message.content}
-                    </ChatBubble>
-                  );
-                })}
-                {isLoading && <ChatLoadingBubble />}
-                {error && (
-                  <ChatBubble error={true} role="assistant">
-                    Something went wrong. You may have reached the request
-                    limit. Please try again later.
-                  </ChatBubble>
-                )}
-              </div>
-              <ChatInput chat={chat} setChat={setChat} />
-            </div>
-          </LineContext.Provider>
+        <div className={s.mainSection}>
+          <VideoPlayer src={videoSrc?.fileUrl} subtitles={subtitles} videoTagRef={videoTagRef} toggleSidebar={toggleSidebar} sidebarShown={showAssistant} />
+          <LinesAssistant lines={subtitles.map(s => s.text)} shown={showAssistant} />
         </div>
       </div>
     </>

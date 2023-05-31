@@ -1,0 +1,35 @@
+@use '../../styles/colors' as c;
+@use 'sass:color' as color;
+
+.textAndChatWrapper {
+  flex: 1 1 0;
+  display: flex;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 14px;
+  background-color: c.$bg-black;
+  box-shadow: 0 0 6px 1px color.change(c.$bg-black, $alpha: 0.6);
+  color: white;
+  overflow: hidden;
+  transition: flex-grow 1s ease-out;
+
+  > div {
+    &:first-of-type {
+      border-right: 1px solid black;
+    }
+    flex: 1 0 0;
+  }
+}
+
+.chatWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.chatBubbles {
+  flex: 1 1 0;
+  padding: 1rem;
+  overflow-y: auto;
+}

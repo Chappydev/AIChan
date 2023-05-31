@@ -1,13 +1,13 @@
 import React, { useEffect, useMemo, useState } from "react";
 import s from './VideoPlayer.module.scss';
 import useVideo from "@/hooks/useVideo";
-import { Forward5Rounded, FullscreenExitRounded, FullscreenRounded, PauseRounded, PlayArrowRounded } from "@mui/icons-material";
+import { ChevronLeftRounded, ChevronRightRounded, Forward5Rounded, FullscreenExitRounded, FullscreenRounded, PauseRounded, PlayArrowRounded } from "@mui/icons-material";
 import SubtitlePlayer from "../SubtitlePlayer";
 import SubtitleManager from "@/utility/SubtitleManager";
 import { getReadableTime } from "@/utility/videoFunctions";
 import { useRef } from "react";
 
-const VideoPlayer = ({ src, subtitles, videoTagRef }) => {
+const VideoPlayer = ({ src, subtitles, videoTagRef, toggleSidebar, sidebarShown }) => {
   const { videoClock, isPlay, isFullscreen, togglePlay, toggleFullScreenMode, skipForwardFive, videoRef, videoContainerRef } = useVideo();
 
   const [currentSubtitles, setCurrentSubtitles] = useState([]);
@@ -76,15 +76,17 @@ const VideoPlayer = ({ src, subtitles, videoTagRef }) => {
 
   // TODO: Change how we manage the width of the 'currentTimeLine' as it does not keep up with dragging and stuff very well
   return (
-    <div className={s.videoContainer} ref={videoContainerRef}>
-      <video className={s.video} ref={(el) => { videoTagRef.current = el; videoRef.current = el; }} src={src} onTimeUpdate={timeUpdateHandler} onDurationChange={durationChangeHandler} >
-      </video>
-      {/* controls */}
-      <SubtitlePlayer subtitles={currentSubtitles} />
-      <div className={s.controlsOuterContainer
-      } onMouseEnter={() => setShowControls(true)} onMouseLeave={() => setShowControls(false)}>
+    <div className={s.outerWrapper}>
+      <div className={s.videoContainer} ref={videoContainerRef}>
+        <video className={s.video} ref={(el) => { videoTagRef.current = el; videoRef.current = el; }} src={src} onTimeUpdate={timeUpdateHandler} onDurationChange={durationChangeHandler} >
+        </video>
+        {/* controls */}
+        <SubtitlePlayer subtitles={currentSubtitles} />
+      </div >
+      <div className={s.controlsOuterContainer} onMouseEnter={() => setShowControls(true)} onMouseLeave={() => setShowControls(true)}>
         {showControls &&
           <div className={s.controlsInnerContainer}>
+            <div className={s.sidebarTab} onClick={toggleSidebar}>{sidebarShown ? <ChevronRightRounded fontSize="medium" /> : <ChevronLeftRounded />}</div>
             <div className={s.timeControls}>
               <div className={s.textTime}>{getReadableTime(currentTime)}</div>
               <div className={s.timeLineContainer}>
@@ -100,7 +102,7 @@ const VideoPlayer = ({ src, subtitles, videoTagRef }) => {
           </div>
         }
       </div>
-    </div >
+    </div>
   )
 }
 
