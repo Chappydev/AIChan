@@ -1,8 +1,8 @@
 import { LineContext } from "@/contexts/LineContext";
-import React, { useContext, useEffect, useState } from "react";
+import React, { forwardRef, useContext, useEffect, useState } from "react";
 import s from "./TextLine.module.scss";
 
-const TextLine = ({ id, text }) => {
+const TextLine = forwardRef(({ id, text }, ref) => {
   const { refLines, setRefLines } = useContext(LineContext);
   const [refSelected, setRefSelected] = useState(false);
 
@@ -27,7 +27,7 @@ const TextLine = ({ id, text }) => {
   }, [refLines, text, setRefSelected]);
 
   return (
-    <div>
+    <div ref={ref}>
       <span
         id={id}
         className={s.refSelector}
@@ -39,6 +39,6 @@ const TextLine = ({ id, text }) => {
       <span>{text}</span>
     </div>
   );
-};
+});
 
 export default TextLine;

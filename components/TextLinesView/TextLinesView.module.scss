@@ -10,5 +10,6 @@
 .textLines {
   flex: 1 1 0;
   padding: 1rem;
+  scroll-behavior: smooth;
   overflow-y: auto;
 }
