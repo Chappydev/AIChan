@@ -4,7 +4,6 @@ import VideoPlayer from "@/components/VideoPlayer";
 import FileUploadForm from "@/components/FileUploadForm";
 import Head from "next/head";
 import SubtitleReader from "@/utility/SubtitleReader";
-import { LinesAssistant } from "@/components/LinesAssistant";
 
 const Video = () => {
   const [videoSrc, setVideoSrc] = useState(null);
@@ -12,7 +11,6 @@ const Video = () => {
   console.log(videoSrc, subtitleFiles);
   const [subtitles, setSubtitles] = useState([]);
   console.log(subtitles);
-  const [showAssistant, setShowAssistant] = useState(false);
   const videoTagRef = useRef();
 
   const subtitleReader = useMemo(() => {
@@ -51,9 +49,6 @@ const Video = () => {
     }
   }
 
-  const toggleSidebar = () => setShowAssistant(!showAssistant);
-
-
   return (
     <>
       <Head>
@@ -62,10 +57,7 @@ const Video = () => {
       </Head>
       <div className={s.outerWrapper}>
         <FileUploadForm handleSources={handleSources} />
-        <div className={s.mainSection}>
-          <VideoPlayer src={videoSrc?.fileUrl} subtitles={subtitles} videoTagRef={videoTagRef} toggleSidebar={toggleSidebar} sidebarShown={showAssistant} />
-          <LinesAssistant lines={subtitles.map(s => s.text)} shown={showAssistant} />
-        </div>
+        <VideoPlayer src={videoSrc?.fileUrl} subtitles={subtitles} videoTagRef={videoTagRef} />
       </div>
     </>
   )
