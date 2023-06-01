@@ -1,35 +1,51 @@
 @use '../../styles/colors' as c;
 @use 'sass:color' as color;
+$darkened-bg: color.scale(c.$bg-black, $lightness: -30%);
 
 .textAndChatWrapper {
   flex: 1 1 0;
   display: flex;
+  flex-direction: column;
   width: 100%;
   max-width: 500px;
-  border-radius: 14px;
   background-color: c.$bg-black;
-  box-shadow: 0 0 6px 1px color.change(c.$bg-black, $alpha: 0.6);
   color: white;
   overflow: hidden;
-  transition: flex-grow 1s ease-out;
+  transition: flex-grow 0.6s ease-out;
 
-  > div {
-    &:first-of-type {
-      border-right: 1px solid black;
+  .tabs {
+    flex: 0 0 auto;
+    display: flex;
+    gap: 2px;
+    width: 100%;
+    padding: 4px;
+
+    > div {
+      flex: 1 0 0;
+      padding: 0.15em 0;
+      cursor: pointer;
+      text-align: center;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      &[data-active="false"] {
+        background-color: $darkened-bg;
+      }
+      &[data-active="true"] {
+        box-shadow: 0 -3px 5px -2px color.change($darkened-bg, $alpha: 1);
+      }
     }
-    flex: 1 0 0;
   }
-}
 
-.chatWrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  overflow: hidden;
-}
-
-.chatBubbles {
-  flex: 1 1 0;
-  padding: 1rem;
-  overflow-y: auto;
+  .content {
+    flex: 1 0 0;
+    display: flex;
+    // adding any height below 100% seems to fix the content overflowing for some reason
+    height: 50%;
+  }
+  // > div {
+  //   &:first-of-type {
+  //     border-right: 1px solid black;
+  //   }
+  //   flex: 1 0 0;
+  // }
 }
