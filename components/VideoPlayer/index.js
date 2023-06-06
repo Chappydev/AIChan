@@ -32,6 +32,8 @@ const VideoPlayer = ({ src, subtitles, videoTagRef }) => {
   }
 
   const changeTimeFromMousePosition = (e) => {
+    if (!videoRef.current.src || !videoClock) return;
+
     const rect = e.currentTarget.getBoundingClientRect();
     const fullWidth = e.currentTarget.clientWidth;
     const mouseWidth = Math.max(Math.min(e.pageX - rect.x, e.currentTarget.clientWidth), 0);
