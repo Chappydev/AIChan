@@ -1,11 +1,10 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useRef } from "react";
 import s from './VideoPlayer.module.scss';
 import useVideo from "@/hooks/useVideo";
 import { ChevronLeftRounded, ChevronRightRounded, Forward5Rounded, FullscreenExitRounded, FullscreenRounded, PauseRounded, PlayArrowRounded } from "@mui/icons-material";
 import SubtitlePlayer from "../SubtitlePlayer";
 import SubtitleManager from "@/utility/SubtitleManager";
 import { getReadableTime } from "@/utility/videoFunctions";
-import { useRef } from "react";
 import { LinesAssistant } from "../LinesAssistant";
 
 const VideoPlayer = ({ src, subtitles, videoTagRef }) => {
@@ -19,6 +18,7 @@ const VideoPlayer = ({ src, subtitles, videoTagRef }) => {
   const [showAssistant, setShowAssistant] = useState(false);
   const wasPaused = useRef(true);
   const subtitleManager = useMemo(() => new SubtitleManager(subtitles), [subtitles, SubtitleManager]);
+  const controlsTimeout = useRef();
 
   const timeUpdateHandler = (e) => {
     setCurrentTime(e.target.currentTime);
@@ -29,6 +29,27 @@ const VideoPlayer = ({ src, subtitles, videoTagRef }) => {
       setVideoLength(0);
     }
     setVideoLength(e.target.duration);
+  }
+
+  const handleMouseEnter = () => {
+    setShowControls(true);
+
+    controlsTimeout.current = setTimeout(() => setShowControls(false), 4000);
+  }
+
+  const handleMouseLeave = () => {
+    clearTimeout(controlsTimeout.current);
+
+    setShowControls(false);
+  }
+
+  const controlsMouseMoveHandler = () => {
+    clearTimeout(controlsTimeout.current);
+
+    if (!showControls) {
+      setShowControls(true);
+    }
+    controlsTimeout.current = setTimeout(() => setShowControls(false), 4000);
   }
 
   const changeTimeFromMousePosition = (e) => {
@@ -79,6 +100,7 @@ const VideoPlayer = ({ src, subtitles, videoTagRef }) => {
   }, [subtitleManager, setCurrentSubtitles, videoClock])
 
   // TODO: Change how we manage the width of the 'currentTimeLine' as it does not keep up with dragging and stuff very well
+  // TODO: Create component to wrap controls that fades it in/out
   return (
     <div className={s.mainSection} ref={videoContainerRef}>
       <div className={s.outerWrapper}>
@@ -88,7 +110,7 @@ const VideoPlayer = ({ src, subtitles, videoTagRef }) => {
           {/* controls */}
           <SubtitlePlayer subtitles={currentSubtitles} />
         </div >
-        <div className={s.controlsOuterContainer} onMouseEnter={() => setShowControls(true)} onMouseLeave={() => setShowControls(false)}>
+        <div className={s.controlsOuterContainer} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onMouseMove={controlsMouseMoveHandler}>
           {showControls &&
             <div className={s.controlsInnerContainer}>
               <div className={s.sidebarTab} onClick={() => setShowAssistant(!showAssistant)}>{showAssistant ? <ChevronRightRounded fontSize="medium" /> : <ChevronLeftRounded />}</div>

@@ -11,7 +11,6 @@ const TextLinesView = ({ lines, currentLines }) => {
 
   useEffect(() => {
     const offsetFromTop = currentLineRef?.current?.offsetTop - scrollContainerRef.current.scrollTop;
-    console.log(offsetFromTop, scrollContainerRef?.current?.clientHeight, scrollContainerRef?.current?.scrollTop);
     if (offsetFromTop >= scrollContainerRef?.current?.clientHeight - maxBottomOffset) {
       scrollContainerRef.current.scrollTop += offsetFromTop - desiredTopOffset;
     }
