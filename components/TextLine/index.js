@@ -40,5 +40,6 @@ const TextLine = forwardRef(({ id, text }, ref) => {
     </div>
   );
 });
+TextLine.displayName = 'TextLine';
 
 export default TextLine;
