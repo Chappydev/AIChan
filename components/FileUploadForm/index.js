@@ -1,4 +1,6 @@
+import { UploadFileRounded } from "@mui/icons-material";
 import React from "react";
+import s from './FileUploadForm.module.scss';
 
 function extractSources(files) {
   let subtitleFiles = [];
@@ -47,7 +49,10 @@ const FileUploadForm = ({ handleSources }) => {
 
   return (
     <form>
-      <input type="file" accept=".ass, .srt, .vtt, .mkv, .mp4, .avi" multiple onChange={handleFileChange} />
+      <label className={s.customFileUpload}>
+        <input type="file" accept=".ass, .srt, .vtt, .mkv, .mp4, .avi" multiple hidden onChange={handleFileChange} />
+        <UploadFileRounded fontSize="large" />
+      </label>
     </form>
   );
 };
