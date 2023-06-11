@@ -1,0 +1,13 @@
+.chatWrapper {
+  flex: 1 0 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.chatBubbles {
+  flex: 1 1 0;
+  padding: 1rem;
+  overflow-y: auto;
+}

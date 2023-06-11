@@ -1,0 +1,16 @@
+.wrapper {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 75px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.subtitleLine {
+  border-radius: 0.5rem;
+  padding: 0.4em;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+}

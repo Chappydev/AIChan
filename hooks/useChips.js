@@ -10,7 +10,7 @@ const useChips = (options) => {
   // without overflow
   const updateChips = useCallback(() => {
     if (
-      containerRef?.current?.scrollWidth > containerRef?.current?.offsetWidth
+      containerRef?.current?.scrollWidth > containerRef?.current?.offsetWidth && firstHiddenInd >= 0
     ) {
       setFirstHiddenInd(firstHiddenInd - 1);
     }

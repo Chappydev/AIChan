@@ -1,0 +1,141 @@
+@use '../../styles/colors' as c;
+@use '../../styles/spacing' as s;
+
+.mainSection {
+  display: flex;
+  flex: 1 1 0;
+  // TODO: Make this less of a 'magic number' so that it always matches the height of the navbar above it
+  height: calc(100% - s.$navbar-height);
+}
+
+.outerWrapper {
+  cursor: none;
+  flex: 2 1 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+
+.videoContainer {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: 100%;
+}
+
+.video {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.controlsOuterContainer {
+  position: absolute;
+  left: 0.66rem;
+  right: 0;
+  bottom: 0;
+  top: 0;
+
+  .controlsInnerContainer {
+    cursor: auto;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .sidebarTab {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1 / 1;
+    padding: 0.1rem;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    background-color: c.$bg-black;
+    cursor: pointer; 
+  }
+
+  .timeControls {
+    width: 100%;
+    display: flex;
+    font-size: 0.95rem;
+
+    .textTime {
+      margin: 0 0.5em;
+    }
+
+    .timeLineContainer {
+      display: flex;
+      flex: 1 0 0;
+      width: auto;
+
+      &:hover .timeLine {
+        height: 16px;
+      }
+
+      .timeLine {
+        flex: 1 0 0;
+        align-self: center;
+        width: auto;
+        height: 8px;
+        background-color: white;
+        position: relative;
+        cursor: pointer;
+        transition: height 0.08s linear;
+
+        .currentTimeLine {
+          position: absolute;
+          top: 0; 
+          bottom: 0;
+          left: 0;
+          width: 0%;
+          background-color: orange;
+          // this seems like a kind of hacky solution and probably should be changed
+          // but the alternative seems hard and this is not too bad so whatever
+          transition: width 0.5s linear;
+        }
+      }
+    }
+  }
+
+  .buttonControls {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    height: 48px;
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: transparent;
+      height: 100%; 
+      cursor: pointer;
+      transition: opacity 0.03s linear;
+      &:hover {
+        opacity: 0.8;
+      } 
+    }
+  }
+
+}
+
+.playPauseBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  height: 100%; 
+  cursor: pointer;
+  transition: opacity 0.03s linear;
+  &:hover {
+    opacity: 0.8;
+  }
+}

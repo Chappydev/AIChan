@@ -1,0 +1,35 @@
+@use '../../styles/spacing' as s;
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  height: s.$navbar-height;
+}
+
+.leftItems {
+  display: flex;
+  > a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 0 1;
+    min-width: min-content;
+    padding: 1rem;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+.rightItems {
+  display: flex;
+  > * {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 0 1;
+    min-width: max-content;
+    padding: 1rem;
+    overflow: hidden;
+  }
+}

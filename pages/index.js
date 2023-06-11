@@ -13,6 +13,7 @@ import TextArea from "@/components/TextArea";
 import dynamic from "next/dynamic";
 import { INITIAL_STATE, reducer } from "@/utility/tourConfig";
 import TextAreaInput from "@/components/TextAreaInput";
+import HeaderLayout from "@/components/HeaderLayout";
 const Tour = dynamic(() => import("../components/Tour"), { ssr: false });
 
 export default function Home() {
@@ -30,22 +31,9 @@ export default function Home() {
   const [refLines, setRefLines] = useState([]);
   const { chat, setChat, ref: scrollRef, onComplete } = useChat(refLines);
   const options = useOptions(refLines, chat, setChat);
-  const { data, error, isLoading } = useAssistant(chat);
+  const { data, error, isLoading } = useAssistant(chat, setChat);
   console.log(error);
   const [tourState, dispatch] = useReducer(reducer, INITIAL_STATE);
-
-  useEffect(() => {
-    if (data) {
-      const newChat = {
-        content: data.content,
-        role: data.role,
-        type: chat[chat.length - 1],
-        raw: data,
-      };
-      setChat([...chat, newChat]);
-    }
-    // eslint-disable-next-line
-  }, [data]);
 
   useEffect(() => {
     if (
@@ -61,6 +49,13 @@ export default function Home() {
     // eslint-disable-next-line
   }, [refLines]);
 
+  const handleStartTour = () => {
+    setRefLines([]);
+    localStorage.removeItem("tour");
+    dispatch({ type: "RESTART" });
+  };
+
+
   return (
     <>
       <Head>
@@ -73,72 +68,78 @@ export default function Home() {
         refLines={refLines}
         setRefLines={setRefLines}
       />
-      <main className={s.main}>
-        <div className={s.wrapper}>
-          <LineContext.Provider value={{ refLines, setRefLines }}>
-            <div id="textArea" className={s.textWrapper}>
-              <div className={s.textLines}>
-                {lines.map((line, ind) =>
-                  line.startsWith("オスタニア") ? (
-                    <TextLine id="lineSelector" text={line} key={ind} />
-                  ) : (
-                    <TextLine text={line} key={ind} />
-                  )
-                )}
+      <HeaderLayout navItems={
+        <button className={s.tourStartButton} onClick={handleStartTour}>
+          Take a Tour
+        </button>
+      }>
+        <main className={s.main}>
+          <div className={s.wrapper}>
+            <LineContext.Provider value={{ refLines, setRefLines }}>
+              <div id="textArea" className={s.textWrapper}>
+                <div className={s.textLines}>
+                  {lines.map((line, ind) =>
+                    line.startsWith("オスタニア") ? (
+                      <TextLine id="lineSelector" text={line} key={ind} />
+                    ) : (
+                      <TextLine text={line} key={ind} />
+                    )
+                  )}
+                </div>
+                <TextAreaInput lines={lines} setLines={setLines} />
               </div>
-              <TextAreaInput lines={lines} setLines={setLines} />
-            </div>
-            <div className={s.chatWrapper}>
-              {/* <ChatBubble message={chat} />
+              <div className={s.chatWrapper}>
+                {/* <ChatBubble message={chat} />
               <ChatBubble
                 message={{
                   role: "user",
                   content: `Lines: ${refLines.length} ${refLines.at(-1)}`,
                 }}
               /> */}
-              <div className={s.chatBubbles} ref={scrollRef}>
-                {chat.map((message, ind) => {
-                  if (message.type === "initial") {
+                <div className={s.chatBubbles} ref={scrollRef}>
+                  {chat.map((message, ind) => {
+                    if (message.type === "initial") {
+                      return (
+                        <ChatBubble
+                          key={ind}
+                          initial={true}
+                          role={message.role}
+                          options={options}
+                        >
+                          {message.content}
+                        </ChatBubble>
+                      );
+                    } else if (message.waiting) {
+                      return (
+                        <ChatBubble key={ind} role={message.role}>
+                          <TextArea
+                            content={message.content}
+                            onComplete={onComplete}
+                          />
+                        </ChatBubble>
+                      );
+                    }
+
                     return (
-                      <ChatBubble
-                        key={ind}
-                        initial={true}
-                        role={message.role}
-                        options={options}
-                      >
+                      <ChatBubble key={ind} role={message.role} options={options}>
                         {message.content}
                       </ChatBubble>
                     );
-                  } else if (message.waiting) {
-                    return (
-                      <ChatBubble key={ind} role={message.role}>
-                        <TextArea
-                          content={message.content}
-                          onComplete={onComplete}
-                        />
-                      </ChatBubble>
-                    );
-                  }
-
-                  return (
-                    <ChatBubble key={ind} role={message.role} options={options}>
-                      {message.content}
+                  })}
+                  {isLoading && <ChatLoadingBubble />}
+                  {error && (
+                    <ChatBubble error={true} role="assistant">
+                      Something went wrong. You may have reached the request
+                      limit. Please try again later.
                     </ChatBubble>
-                  );
-                })}
-                {isLoading && <ChatLoadingBubble />}
-                {error && (
-                  <ChatBubble error={true} role="assistant">
-                    Something went wrong. You may have reached the request
-                    limit. Please try again later.
-                  </ChatBubble>
-                )}
+                  )}
+                </div>
+                <ChatInput chat={chat} setChat={setChat} />
               </div>
-              <ChatInput chat={chat} setChat={setChat} />
-            </div>
-          </LineContext.Provider>
-        </div>
-      </main>
+            </LineContext.Provider>
+          </div>
+        </main>
+      </HeaderLayout>
     </>
   );
 }

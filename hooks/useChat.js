@@ -1,4 +1,4 @@
-const { useRef, useEffect, useState } = require("react");
+const { useRef, useEffect, useState, useCallback } = require("react");
 
 const initialMessage = {
   role: "assistant",
@@ -12,7 +12,21 @@ const initialMessage = {
 
 const useChat = (refLines) => {
   const [chat, setChat] = useState([initialMessage]);
-  const onCompleteRef = useRef();
+  const onComplete = useCallback((txt) => {
+    setChat((currChat) =>
+      currChat.map((msg) => {
+        if (msg.waiting) {
+          return {
+            ...msg,
+            content: msg.content.concat(txt),
+            waiting: false,
+            raw: { ...msg.raw, content: msg.raw.content.concat(txt) },
+          };
+        }
+        return msg;
+      })
+    );
+  }, [chat, setChat]);
 
   const ref = useRef();
   let chatLengthRef = useRef(0);
@@ -34,27 +48,7 @@ const useChat = (refLines) => {
     // eslint-disable-next-line
   }, [refLines, setChat]);
 
-  useEffect(() => {
-    if (chat.at(-1)?.waiting) {
-      onCompleteRef.current = (txt) => {
-        setChat((currChat) =>
-          currChat.map((msg) => {
-            if (msg.waiting) {
-              return {
-                ...msg,
-                content: msg.content.concat(txt),
-                waiting: false,
-                raw: { ...msg.raw, content: msg.raw.content.concat(txt) },
-              };
-            }
-            return msg;
-          })
-        );
-      };
-    }
-  }, [chat]);
-
-  return { chat, setChat, ref, onComplete: onCompleteRef?.current };
+  return { chat, setChat, ref, onComplete };
 };
 
 export default useChat;
