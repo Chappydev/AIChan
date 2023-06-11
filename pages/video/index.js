@@ -4,6 +4,7 @@ import VideoPlayer from "@/components/VideoPlayer";
 import FileUploadForm from "@/components/FileUploadForm";
 import Head from "next/head";
 import SubtitleReader from "@/utility/SubtitleReader";
+import HeaderLayout from "@/components/HeaderLayout";
 
 const Video = () => {
   const [videoSrc, setVideoSrc] = useState(null);
@@ -49,16 +50,17 @@ const Video = () => {
     }
   }
 
+  // TODO: Add a proper navbar; move FileUploadForm into there and match the styles
+  // TODO: Prevent scrollbar when LinesAssistant is too full 
   return (
     <>
       <Head>
         <title>AIChan - VideoPlayer</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <div className={s.outerWrapper}>
-        <FileUploadForm handleSources={handleSources} />
+      <HeaderLayout navItems={[<FileUploadForm key={'FileUploadForm'} handleSources={handleSources} />]}>
         <VideoPlayer src={videoSrc?.fileUrl} subtitles={subtitles} videoTagRef={videoTagRef} />
-      </div>
+      </HeaderLayout>
     </>
   )
 }
