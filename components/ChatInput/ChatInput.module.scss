@@ -18,6 +18,7 @@
   width: 100%;
   padding: 0.6rem;
   line-height: normal;
+  font-size: 1.0625rem;
 }
 
 .submit {
@@ -26,6 +27,7 @@
   line-height: 0;
   cursor: pointer;
   background-color: color.scale(c.$accent-blue, $lightness: -10%);
+  font-size: 1.0625rem;
   &:hover {
     background-color: color.scale(c.$accent-blue, $lightness: -5%);
   }

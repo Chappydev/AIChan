@@ -2,5 +2,7 @@
 
 $bg-black: rgba(30, 30, 30, 1);
 $accent-blue: rgba(58, 87, 255, 1);
+$dark-blue: color.scale($accent-blue, $lightness: -70%);
 $lighter-black: color.scale($bg-black, $lightness: 6%);
+$darker-black: color.scale($bg-black, $lightness: -20%);
 $red: #fb3640;

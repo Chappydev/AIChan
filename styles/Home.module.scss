@@ -6,8 +6,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background: linear-gradient(45deg, rgb(255, 136, 0), green);
+  height: calc(100vh - s.$navbar-height);
+  // background: linear-gradient(45deg, rgb(255, 136, 0), green);
+  // background-color: c.$darker-black;
+  background: linear-gradient(162deg, c.$darker-black, c.$darker-black 55%, c.$dark-blue);
+  font-size: 1.0625rem;
 }
 
 .wrapper {
@@ -34,6 +37,7 @@
 
 .textWrapper {
   line-height: 200%;
+  font-size: 1.125rem;
 }
 
 .textWrapper,

@@ -10,6 +10,7 @@ $darkened-bg: color.scale(c.$bg-black, $lightness: -30%);
   max-width: 500px;
   background-color: c.$bg-black;
   color: white;
+  font-size: 1.0625rem;
   overflow: hidden;
   transition: flex-grow 0.6s ease-out;
 
