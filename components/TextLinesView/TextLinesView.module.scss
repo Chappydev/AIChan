@@ -1,3 +1,7 @@
+@use '../../styles/mixins' as m;
+@use '../../styles/colors' as c;
+@use 'sass:color';
+
 .textWrapper {
   display: flex;
   height: 100%;
@@ -13,4 +17,20 @@
   padding: 1rem;
   scroll-behavior: smooth;
   overflow-y: auto;
+}
+
+.bubble {
+  position: absolute;
+  top: 0.75rem;
+  right: 1.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  background-color: c.$accent-blue;
+  @include m.shadow($y: 2px, $blur: 5px, $alpha: 0.6);
+  cursor: pointer;
+  // box-shadow: 0 4px 8px 0 color.change(c.$bg-black, $alpha: 0.8);
 }

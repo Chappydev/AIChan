@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import dynamic from "next/dynamic";
 import useAssistant from "@/hooks/useAssistant";
 import useChat from "@/hooks/useChat";
 import useOptions from "@/hooks/useOptions";
 import { LineContext } from "@/contexts/LineContext";
-import TextLinesView from "../TextLinesView";
+const TextLinesView = dynamic(() => {
+  return import('../TextLinesView');
+}, { ssr: false });
 import s from './LinesAssistant.module.scss';
 import { AssistantChat } from "../AssistantChat";
 

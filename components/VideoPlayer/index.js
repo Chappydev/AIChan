@@ -52,6 +52,7 @@ const VideoPlayer = ({ src, subtitles, videoTagRef }) => {
     controlsTimeout.current = setTimeout(() => setShowControls(false), 4000);
   }
 
+  // TODO: Fix subs getting out of sync when changing time (here and 5s skip)
   const changeTimeFromMousePosition = (e) => {
     if (!videoRef.current.src || !videoClock) return;
 
@@ -87,17 +88,22 @@ const VideoPlayer = ({ src, subtitles, videoTagRef }) => {
   useEffect(() => {
     let interval;
 
-    if (videoClock) {
-      interval = setInterval(() => {
-        const subtitlesAtTime = subtitleManager.findSubtitleAt(videoClock.getTime());
-        setCurrentSubtitles(subtitlesAtTime);
-      }, 100)
-    } else {
+    if (!videoClock) {
       clearInterval(interval);
+      return;
     }
 
+    interval = setInterval(() => {
+      const subtitlesAtTime = subtitleManager.findSubtitleAt(videoClock.getTime());
+      const subtitlesHaveNotChanged = subtitlesAtTime.length === currentSubtitles.length && subtitlesAtTime.every((sub, ind) => sub === currentSubtitles[ind]);
+      // console.log(subtitlesAtTime, currentSubtitles, subtitlesAtTime[0] === currentSubtitles[0]);
+      if (subtitlesHaveNotChanged) return;
+      console.log('updating subs')
+      setCurrentSubtitles(subtitlesAtTime);
+    }, 100)
+
     return () => clearInterval(interval);
-  }, [subtitleManager, setCurrentSubtitles, videoClock])
+  }, [subtitleManager, currentSubtitles, setCurrentSubtitles, videoClock])
 
   // TODO: Change how we manage the width of the 'currentTimeLine' as it does not keep up with dragging and stuff very well
   // TODO: Create component to wrap controls that fades it in/out
@@ -107,7 +113,6 @@ const VideoPlayer = ({ src, subtitles, videoTagRef }) => {
         <div className={s.videoContainer}>
           <video className={s.video} ref={(el) => { videoTagRef.current = el; videoRef.current = el; }} src={src} onTimeUpdate={timeUpdateHandler} onDurationChange={durationChangeHandler} >
           </video>
-          {/* controls */}
           <SubtitlePlayer subtitles={currentSubtitles} />
         </div >
         <div className={s.controlsOuterContainer} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onMouseMove={controlsMouseMoveHandler}>

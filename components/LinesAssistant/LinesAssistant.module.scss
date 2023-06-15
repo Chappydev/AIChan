@@ -12,6 +12,7 @@ $darkened-bg: color.scale(c.$bg-black, $lightness: -30%);
   color: white;
   font-size: 1.0625rem;
   overflow: hidden;
+  // TODO: Change this so the size of everything is the same and it's just moving in from the right
   transition: flex-grow 0.6s ease-out;
 
   .tabs {
