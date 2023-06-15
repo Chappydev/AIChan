@@ -52,7 +52,6 @@ const VideoPlayer = ({ src, subtitles, videoTagRef }) => {
     controlsTimeout.current = setTimeout(() => setShowControls(false), 4000);
   }
 
-  // TODO: Fix subs getting out of sync when changing time (here and 5s skip)
   const changeTimeFromMousePosition = (e) => {
     if (!videoRef.current.src || !videoClock) return;
 
@@ -96,7 +95,6 @@ const VideoPlayer = ({ src, subtitles, videoTagRef }) => {
     interval = setInterval(() => {
       const subtitlesAtTime = subtitleManager.findSubtitleAt(videoClock.getTime());
       const subtitlesHaveNotChanged = subtitlesAtTime.length === currentSubtitles.length && subtitlesAtTime.every((sub, ind) => sub === currentSubtitles[ind]);
-      // console.log(subtitlesAtTime, currentSubtitles, subtitlesAtTime[0] === currentSubtitles[0]);
       if (subtitlesHaveNotChanged) return;
       console.log('updating subs')
       setCurrentSubtitles(subtitlesAtTime);

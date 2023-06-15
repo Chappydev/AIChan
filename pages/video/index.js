@@ -50,8 +50,6 @@ const Video = () => {
     }
   }
 
-  // TODO: Add a proper navbar; move FileUploadForm into there and match the styles
-  // TODO: Prevent scrollbar when LinesAssistant is too full 
   return (
     <>
       <Head>

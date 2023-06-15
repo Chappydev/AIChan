@@ -72,7 +72,7 @@ const useVideo = () => {
       newTime = videoRef.current.currentTime - 5;
     }
     videoRef.current.currentTime = newTime;
-    videoClock.setTime(newTime * 1000);
+    videoClock.setTime(videoRef.current.currentTime * 1000);
   }, [videoClock]);
 
   const skipForwardFive = useCallback(() => {
@@ -88,7 +88,7 @@ const useVideo = () => {
       newTime = videoRef.current.currentTime + 5
     }
     videoRef.current.currentTime = newTime;
-    videoClock.setTime(newTime * 1000);
+    videoClock.setTime(videoRef.current.currentTime * 1000);
   }, [videoClock]);
 
   const playHandler = useCallback(() => {

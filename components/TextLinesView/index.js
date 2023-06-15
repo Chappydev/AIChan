@@ -13,8 +13,6 @@ const TextLinesView = ({ lines, currentLines }) => {
   const currentLineRef = useRef(null);
   const scrollContainerRef = useRef(null);
 
-  // TODO: stop autoscroll when user chooses to scroll on their own
-  // and include a way to get back to autoscroll
   // TODO: Maintain scroll position when switching between this and chat
   // TODO: Add option to clear all refLines/maybe only allow one a time and clear old selection when you pick new one
   useEffect(() => {

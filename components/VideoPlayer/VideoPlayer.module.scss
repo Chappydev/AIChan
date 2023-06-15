@@ -4,7 +4,6 @@
 .mainSection {
   display: flex;
   flex: 1 1 0;
-  // TODO: Make this less of a 'magic number' so that it always matches the height of the navbar above it
   height: calc(100% - s.$navbar-height);
 }
 
