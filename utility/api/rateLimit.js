@@ -19,7 +19,7 @@ const applyMiddleware = (middleware) => (req, res) => {
 
 // returns array so we could easily add more (eg express-slow-down) later
 const getRateLimitMiddlewares = (
-  limit = 10,
+  limit = 100,
   windowMs = 60 * 1000,
   delayAfter = 5,
   delayMs = 500
