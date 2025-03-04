@@ -39,11 +39,11 @@ export default function Home() {
     if (
       refLines.length === 1 &&
       refLines[0].startsWith("オスタニア") &&
-      tourState.stepIndex === 2
+      tourState.stepIndex === 3
     ) {
       dispatch({
         type: "NEXT_OR_PREV",
-        payload: { ...tourState, stepIndex: 3 },
+        payload: { ...tourState, stepIndex: 4 },
       });
     }
     // eslint-disable-next-line
@@ -54,7 +54,6 @@ export default function Home() {
     localStorage.removeItem("tour");
     dispatch({ type: "RESTART" });
   };
-
 
   return (
     <>
@@ -68,11 +67,13 @@ export default function Home() {
         refLines={refLines}
         setRefLines={setRefLines}
       />
-      <HeaderLayout navItems={
-        <button className={s.tourStartButton} onClick={handleStartTour}>
-          Take a Tour
-        </button>
-      }>
+      <HeaderLayout
+        navItems={
+          <button className={s.tourStartButton} onClick={handleStartTour}>
+            Take a Tour
+          </button>
+        }
+      >
         <main className={s.main}>
           <div className={s.wrapper}>
             <LineContext.Provider value={{ refLines, setRefLines }}>
@@ -89,13 +90,6 @@ export default function Home() {
                 <TextAreaInput lines={lines} setLines={setLines} />
               </div>
               <div className={s.chatWrapper}>
-                {/* <ChatBubble message={chat} />
-              <ChatBubble
-                message={{
-                  role: "user",
-                  content: `Lines: ${refLines.length} ${refLines.at(-1)}`,
-                }}
-              /> */}
                 <div className={s.chatBubbles} ref={scrollRef}>
                   {chat.map((message, ind) => {
                     if (message.type === "initial") {
@@ -121,7 +115,11 @@ export default function Home() {
                     }
 
                     return (
-                      <ChatBubble key={ind} role={message.role} options={options}>
+                      <ChatBubble
+                        key={ind}
+                        role={message.role}
+                        options={options}
+                      >
                         {message.content}
                       </ChatBubble>
                     );
