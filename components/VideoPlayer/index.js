@@ -93,10 +93,9 @@ const VideoPlayer = ({ src, subtitles, videoTagRef }) => {
     }
 
     interval = setInterval(() => {
-      const subtitlesAtTime = subtitleManager.findSubtitleAt(videoClock.getTime());
+      const subtitlesAtTime = subtitleManager.findSubtitleAt(videoRef?.current?.currentTime * 1000);
       const subtitlesHaveNotChanged = subtitlesAtTime.length === currentSubtitles.length && subtitlesAtTime.every((sub, ind) => sub === currentSubtitles[ind]);
       if (subtitlesHaveNotChanged) return;
-      console.log('updating subs')
       setCurrentSubtitles(subtitlesAtTime);
     }, 100)
 

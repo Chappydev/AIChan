@@ -8,7 +8,7 @@ const useVideo = () => {
   const videoRef = useRef(null);
   const videoContainerRef = useRef(null);
   const videoClock = useMemo(() => {
-    if (duration * 1000) {
+    if (duration) {
       return new Clock(videoRef.current.duration);
     }
 
@@ -94,6 +94,7 @@ const useVideo = () => {
   const playHandler = useCallback(() => {
     setIsPlay(true);
     if (videoClock) {
+      videoClock.setTime(videoRef.current.currentTime * 1000);
       videoClock.start();
     }
   }, [videoClock]);
@@ -101,6 +102,7 @@ const useVideo = () => {
   const pauseHandler = useCallback(() => {
     setIsPlay(false);
     if (videoClock) {
+      videoClock.setTime(videoRef.current.currentTime * 1000);
       videoClock.pause();
     }
   }, [videoClock]);
